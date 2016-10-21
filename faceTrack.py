@@ -77,7 +77,7 @@ class faceTrack(object):
                 realDist = (self.realWidth*d2f)/w
             cv2.imshow('frame',frame)
             
-            print(theta,phi,realDist)
+            return(theta,phi,realDist)
 
             k = cv2.waitKey(1)
             if k == ord('q'):
@@ -92,7 +92,8 @@ class faceTrack(object):
             data = raw_input("please input the distance and face width: (example: distance, width)")
             [realDst, realWidth] = data.split(",")
             self.calibrate(float(realDst), float(realWidth))
-        self.outputDistAng()
+        (theta,phi,dist) = self.outputDistAng()
+        print(theta,phi,dist)
 
 
 
