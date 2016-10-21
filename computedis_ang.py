@@ -36,6 +36,9 @@ while(tf):
 		tf = False
 
 
+
+
+
 cap.release()
 cv2.destroyAllWindows()
 
