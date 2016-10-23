@@ -3,16 +3,20 @@
 Servo servo1;
 Servo servo2;
 
-float ang1 = 0;
-float ang2 = 0;
+int append = 0;
+float packet[3] = {0.0,0.0,0.0};
 
-float ang1_r = 0;
-float ang2_r = 0;
 
-float ang1_0 = 0;
-float ang1_1 = 0;
-float ang2_0 = 0;
-float ang2_1 = 0;
+float ang1 = 0.0;
+float ang2 = 0.0;
+
+float ang1_r = 0.0;
+float ang2_r = 0.0;
+
+float ang1_0 = 0.0;
+float ang1_1 = 0.0;
+float ang2_0 = 0.0;
+float ang2_1 = 0.0;
 
 float delta_ang1;
 float delta_ang2;
@@ -20,25 +24,46 @@ float delta_ang2;
 void setup() {
   servo1.attach(9);
   servo2.attach(10);
+  Serial.begin(9600);
 }
 
 void loop() {
-  ang1_r = packet[0];
-  ang2_r = packet[1];
- 
-  ang1_0 = ang1_1;
-  ang1_1 = ang1_r;
-  ang2_0 = ang2_1;
-  ang2_1 = ang2_r;
-
-  delta_ang1 = ang1_1 - ang1_0;
-  delta_ang2 = ang2_1 - ang2_0;
-
-  ang1 = ang1 + delta_ang1;
-  ang2 = ang2 + delta_ang2;
-
-  servo1.write(ang1);
-  servo2.write(ang2);
+  if (Serial.available() >0){
+    if (Serial.read() == '('){
+      append = 0;
+    }
+    else if (Serial.read() == ')'){
+      append = -1;
+    }
+    if (append >=0){
+      packet[append]=Serial.parseFloat();
+      append+=1;  
+    }
+    if (append ==3){
+      for (int i=0; i<3; i++){
+        Serial.println(packet[i]);  
+      }
+    }
+  }
+  if(append==3){
+    ang1_r = packet[0];
+    ang2_r = packet[1];
+   
+    ang1_0 = ang1_1;
+    ang1_1 = ang1_r;
+    ang2_0 = ang2_1;
+    ang2_1 = ang2_r;
+  
+    delta_ang1 = ang1_1 - ang1_0;
+    delta_ang2 = ang2_1 - ang2_0;
+  
+    ang1 = ang1 + delta_ang1;
+    ang2 = ang2 + delta_ang2;
+  
+    servo1.write(ang1);
+    servo2.write(ang2);  
+  }
+  
 }
 
 
