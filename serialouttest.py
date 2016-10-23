@@ -19,13 +19,18 @@ class serialConnect(object):
         self.ser.close()
 
     def sendSerialdata(self,packet):
-        self.ser.write(str(packet)+'\n')
-        out = ''
-        time.sleep(0.1)
-        while self.ser.inWaiting()>0:
-            out+=self.ser.read(1)
-        if out!='':
-            print out
+        self.ser.write(str(packet)+';')
+        response = ''
+        numLines=0
+        time.sleep(0.01)
+        # wait for "#" to print output
+        # while True:
+        #     response += self.ser.read()
+        #     if "n" in response:
+        #         print(response)
+        #         numLines = numLines + 1
+        #     if(numLines >= 1):
+        #          break 
 
 
 

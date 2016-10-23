@@ -3,12 +3,13 @@
 Servo servo1;
 Servo servo2;
 
+char incomingByte = 0;
+String packet = "";
 int append = 0;
-float packet[3] = {0.0,0.0,0.0};
-
 
 float ang1 = 0.0;
 float ang2 = 0.0;
+float dist = 0.0;
 
 float ang1_r = 0.0;
 float ang2_r = 0.0;
@@ -27,42 +28,50 @@ void setup() {
   Serial.begin(9600);
 }
 
-void loop() {
-  if (Serial.available() >0){
-    if (Serial.read() == '('){
-      append = 0;
-    }
-    else if (Serial.read() == ')'){
-      append = -1;
-    }
-    if (append >=0){
-      packet[append]=Serial.parseFloat();
-      append+=1;  
-    }
-    if (append ==3){
-    }
-  }
-  if(append==3){
-    ang1_r = packet[0];
-    ang2_r = packet[1];
-   
-    ang1_0 = ang1_1;
-    ang1_1 = ang1_r;
-    ang2_0 = ang2_1;
-    ang2_1 = ang2_r;
-  
-    delta_ang1 = ang1_1 - ang1_0;
-    delta_ang2 = ang2_1 - ang2_0;
-  
-    ang1 = ang1 + delta_ang1;
-    ang2 = ang2 + delta_ang2;
-
-    Serial.println(ang1);
-    servo1.write(ang1);
-    servo2.write(ang2);  
-  }
-  
+void parsepacket(String packet1){
+  int len = packet1.length();
+  packet1.remove(0,1);
+  packet1[len-1]='\0';
+  int cmaIdx = packet1.indexOf(',');
+  int scmaIdx = packet1.indexOf(',',cmaIdx+1);
+  String sTheta = packet1.substring(0,cmaIdx);
+  String sPhi = packet1.substring(cmaIdx+1,scmaIdx);
+  String sDist = packet1.substring(scmaIdx+1);
+  ang1_r = sTheta.toFloat();
+  ang2_r = sPhi.toFloat();
+  dist = sDist.toFloat();
 }
+
+void loop() {
+    if (Serial.available() > 0) {
+        // read the incoming byte:
+        incomingByte = Serial.read();
+        if(incomingByte ==';'){
+          parsepacket(packet);
+          ang1_0 = ang1_1;
+          ang1_1 = ang1_r;
+          ang2_0 = ang2_1;
+          ang2_1 = ang2_r;
+        
+          delta_ang1 = ang1_1 - ang1_0;
+          delta_ang2 = ang2_1 - ang2_0;
+        
+          ang1 = ang1 + delta_ang1;
+          ang2 = ang2 + delta_ang2;
+          Serial.println(packet);      
+//          Serial.println(ang1);
+          servo1.write(ang1);
+          servo2.write(ang2); 
+          packet="";
+          
+        }
+        else{
+          packet+=incomingByte;
+        }
+    }
+}
+   
+  
 
 
 
