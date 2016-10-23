@@ -19,14 +19,14 @@ void loop() {
     }
     if (append ==3){
       for (int i=0; i<3; i++){
-        Serial.println(packet[i]);  
+        if(i==2){
+          Serial.println(packet[i]);
+        }
+          Serial.print(packet[i]);
       }
     }
   }
 
-  if(append==3){
-    
-  }
       
 //    // send data only when you receive data:
 //    if (Serial.available() > 0) {

@@ -40,9 +40,6 @@ void loop() {
       append+=1;  
     }
     if (append ==3){
-      for (int i=0; i<3; i++){
-        Serial.println(packet[i]);  
-      }
     }
   }
   if(append==3){
@@ -59,7 +56,8 @@ void loop() {
   
     ang1 = ang1 + delta_ang1;
     ang2 = ang2 + delta_ang2;
-  
+
+    Serial.println(ang1);
     servo1.write(ang1);
     servo2.write(ang2);  
   }
