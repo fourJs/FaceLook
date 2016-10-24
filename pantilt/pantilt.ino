@@ -6,9 +6,10 @@ Servo servo2;
 char incomingByte = 0;
 String packet = "";
 int append = 0;
-float ang1 = 0.0;
-float ang2 = 0.0;
-float dist = 0.0;
+
+//float ang1 = 0.0;
+//float ang2 = 0.0;
+//float dist = 0.0;
 
 float ang1_r = 0.0;
 float ang2_r = 0.0;
@@ -17,7 +18,6 @@ float ang2_r = 0.0;
 //float ang1_1 = 0.0;
 //float ang2_0 = 0.0;
 //float ang2_1 = 0.0;
-
 //float delta_ang1;
 //float delta_ang2;
 
@@ -47,20 +47,20 @@ void loop() {
         incomingByte = Serial.read();
         if(incomingByte ==';'){
           parsepacket(packet);
-          ang1_0 = ang1_1;
-          ang1_1 = ang1_r;
-          ang2_0 = ang2_1;
-          ang2_1 = ang2_r;
-        
-          delta_ang1 = ang1_1 - ang1_0;
-          delta_ang2 = ang2_1 - ang2_0;
-        
-          ang1 = ang1 + delta_ang1;
-          ang2 = ang2 + delta_ang2;
+//          ang1_0 = ang1_1;
+//          ang1_1 = ang1_r;
+//          ang2_0 = ang2_1;
+//          ang2_1 = ang2_r;
+//        
+//          delta_ang1 = ang1_1 - ang1_0;
+//          delta_ang2 = ang2_1 - ang2_0;
+//        
+//          ang1 = ang1 + delta_ang1;
+//          ang2 = ang2 + delta_ang2;
           Serial.println(packet);      
 //          Serial.println(ang1);
-          servo1.write(ang1);
-          servo2.write(ang2); 
+          servo1.write(ang1_r);
+          servo2.write(ang2_r); 
           packet="";
           
         }
