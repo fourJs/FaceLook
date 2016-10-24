@@ -10,9 +10,10 @@ ser = serial.Serial(
     bytesize=serial.SEVENBITS
 )
 
-ser.isOpen()
-
-print 'Enter your commands below.\r\nInsert "exit" to leave the application.'
+if ser.isOpen():
+    print 'Enter your commands below.\r\nInsert "exit" to leave the application.'
+    # while ser.inWaiting()>0:
+        
 
 input=1
 while 1 :
@@ -29,9 +30,9 @@ while 1 :
         ser.write(input+";")
         out = ''
         # let's wait one second before reading output (let's give device time to answer)
-        # time.sleep(1)
-        # while ser.inWaiting() > 0:
-        #     out += ser.read(1)
+        time.sleep(0.1)
+        while ser.inWaiting() > 0:
+            out += ser.read(1)
 
-        # if out != '':
-        #     print ">>" + out
+        if out != '':
+            print ">>" + out

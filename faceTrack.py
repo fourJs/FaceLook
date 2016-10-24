@@ -85,7 +85,6 @@ class faceTrack(object):
         k = cv2.waitKey(1)
         if k == ord('q'):
         	self.runFlag = False
-            
         return (theta,phi,realDist)
     	
     def close(self):
@@ -106,8 +105,11 @@ class faceTrack(object):
         while (self.runFlag):
             (theta,phi,realDist) = self.outputDistAng()
             packet = (float('%.2f'%theta),float('%.2f'%phi),float('%.2f'%realDist))
-            self.serConn.sendSerialdata(packet)
-            print packet
+            if packet == (0.0,0.0,0.0):
+                print "no face"
+            else:
+                self.serConn.sendSerialdata(packet)
+                print packet
 
         self.serConn.close()
         self.close()
