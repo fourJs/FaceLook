@@ -18,7 +18,6 @@ float ang2_r = 0.0;
 //float ang1_1 = 0.0;
 //float ang2_0 = 0.0;
 //float ang2_1 = 0.0;
-//
 //float delta_ang1;
 //float delta_ang2;
 
