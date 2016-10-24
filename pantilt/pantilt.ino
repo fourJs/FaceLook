@@ -9,7 +9,7 @@ int append = 0;
 
 //float ang1 = 0.0;
 //float ang2 = 0.0;
-//float dist = 0.0;
+float dist = 0.0;
 
 float ang1_r = 0.0;
 float ang2_r = 0.0;
@@ -32,14 +32,27 @@ void parsepacket(String packet1){
   int len = packet1.length();
   packet1.remove(0,1);
   packet1[len-1]='\0';
+  packet1[len-2]='\0';
   int cmaIdx = packet1.indexOf(',');
   int scmaIdx = packet1.indexOf(',',cmaIdx+1);
   String sTheta = packet1.substring(0,cmaIdx);
   String sPhi = packet1.substring(cmaIdx+1,scmaIdx);
   String sDist = packet1.substring(scmaIdx+1);
+  Serial.print("before:");
+  Serial.print(sTheta);
+  Serial.print("\t");
+  Serial.print(sPhi);
+  Serial.print("\t");
+  Serial.println(sDist);
   ang1_r = sTheta.toFloat();
   ang2_r = sPhi.toFloat();
   dist = sDist.toFloat();
+  Serial.print("after:");
+  Serial.print(ang1_r);
+  Serial.print("\t");
+  Serial.print(ang2_r);
+  Serial.print("\t");
+  Serial.println(dist);
 }
 
 void loop() {
@@ -58,8 +71,11 @@ void loop() {
 //        
 //          ang1 = ang1 + delta_ang1;
 //          ang2 = ang2 + delta_ang2;
-          Serial.println(packet);      
+//          Serial.println(packet);      
 //          Serial.println(ang1);
+          Serial.print(ang1_r);
+          Serial.print("\t");
+          Serial.println(ang2_r);
           servo1.write(ang1_r);
           servo2.write(ang2_r); 
           packet="";
