@@ -25,6 +25,8 @@ void setup() {
   servo1.attach(9);
   servo2.attach(10);
   Serial.begin(9600);
+  servo1.write(90);
+  servo2.write(90);
   establishContact();
   
 }
@@ -34,27 +36,34 @@ void establishContact() {
     Serial.print('A');   // send a capital A
     delay(300);
   }
+
 }
 
 void parsepacket(String packet1){
     int len = packet1.length();
     packet1.remove(0,1);
-    packet1[len-1]='\0';
     packet1[len-2]='\0';
     int cmaIdx = packet1.indexOf(',');
     int scmaIdx = packet1.indexOf(',',cmaIdx+1);
     String sTheta = packet1.substring(0,cmaIdx-1);
     String sPhi = packet1.substring(cmaIdx+2,scmaIdx);
     String sDist = packet1.substring(scmaIdx+2);
+    sTheta.trim();
+    sPhi.trim();
+    sDist.trim();
     Serial.print("before:");
     Serial.print(sTheta);
     Serial.print(" ");
     Serial.print(sPhi);
     Serial.print(" ");
     Serial.println(sDist);
-    ang1_r = sTheta.toFloat();
-    ang2_r = sPhi.toFloat();
-    dist = sDist.toFloat();
+//    String sThetat= "80.9"; 
+//    String sPhit = "91.05";
+//    String sDistt = "60.1";
+
+    ang1_r = sTheta.toInt();
+    ang2_r = sPhi.toInt();
+    dist = sDist.toInt();
     Serial.print("after:");
     Serial.print(ang1_r);
     Serial.print("\t");

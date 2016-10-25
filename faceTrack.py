@@ -85,7 +85,7 @@ class faceTrack(object):
         k = cv2.waitKey(1)
         if k == ord('q'):
         	self.runFlag = False
-        return (theta,phi,realDist)
+        return (theta+90.0,phi+90.0,realDist)
     	
     def close(self):
         self.cap.release()
