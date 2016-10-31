@@ -3,7 +3,7 @@ import serial
 
 # configure the serial connections (the parameters differs on the device you are connecting to)
 ser = serial.Serial(
-    port='/dev/ttyACM1',
+    port='/dev/cu.usbmodem1411',
     baudrate=9600,
     parity=serial.PARITY_ODD,
     stopbits=serial.STOPBITS_TWO,
@@ -27,7 +27,8 @@ while 1 :
     else:
         # send the character to the device
         # (note that I happend a \r\n carriage return and line feed to the characters - this is requested by my device)
-        ser.write(input+";")
+        ser.write(input)
+        print input
         out = ''
         # let's wait one second before reading output (let's give device time to answer)
         time.sleep(0.1)

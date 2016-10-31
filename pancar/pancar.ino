@@ -16,19 +16,35 @@ char incomingByte = 0;
 String packet = "";
 int append = 0;
 
-//float ang1 = 0.0;
-//float ang2 = 0.0;
 float dist = 0.0;
 
-float ang1_r = 0.0;
-float ang2_r = 0.0;
+float ang1 = 0.0;
+float ang2 = 0.0;
 
-//float ang1_0 = 0.0;
-//float ang1_1 = 0.0;
-//float ang2_0 = 0.0;
-//float ang2_1 = 0.0;
-//float delta_ang1;
-//float delta_ang2;
+float updateRate = 0.5;
+
+
+
+
+
+boolean dstFlag = True;
+float initDist = 0;
+boolean firstDistFlag = True;
+float distThreshold = 0.5;
+float distToTarget = 10;
+float speedCons = 0.5;
+
+
+boolean angFlag = False;
+float initAng = 0;
+boolean firstAngFlag = False;
+float angThreshold = 0.5;
+float angCons = 0.5;
+
+
+
+
+
 
 void setup() {
   servo1.attach(9);
@@ -85,15 +101,15 @@ void parsepacket(String packet1) {
   //    String sPhit = "91.05";
   //    String sDistt = "60.1";
 
-  ang1_r = sTheta.toInt();
-  ang2_r = sPhi.toInt();
+  ang1 = sTheta.toInt();
+  ang2 = sPhi.toInt();
   dist = sDist.toInt();
-  Serial.print("after:");
-  Serial.print(ang1_r);
-  Serial.print("\t");
-  Serial.print(ang2_r);
-  Serial.print("\t");
-  Serial.println(dist);
+//  Serial.print("after:");
+//  Serial.print(ang1_r);
+//  Serial.print("\t");
+//  Serial.print(ang2_r);
+//  Serial.print("\t");
+//  Serial.println(dist);
 }
 
 void loop() {
@@ -103,20 +119,45 @@ void loop() {
     if (incomingByte == ';') {
       parsepacket(packet);
 
-//      ang1_0 = ang1_1;
-//      ang1_1 = ang1_r;
-//      ang2_0 = ang2_1;
-//      ang2_1 = ang2_r;
-//
-//      delta_ang1 = ang1_1 - ang1_0;
-//      delta_ang2 = ang2_1 - ang2_0;
-//
-//      ang1 = ang1 + delta_ang1;
-//      ang2 = ang2 + delta_ang2;
 
-      Serial.println(ang2_r);
+// distance checking and setting speed
+     if(firstDistFlag == True){
+        initDist = dist;
+        firstDistFlag = False;
+      }
+      if(dstFlag == True){
+        speed1 = speedCons * (dist - distToTarget);
+        speed2 = speedCons * (dist - distToTarget);
+        if(dist - initDist*updateRate < distThreshold){
+          dstFlag = False;
+          angFlag = True;
+          firstAngFlag = True;
+         }        
+        }
+//////////////////////////////////////
 
-      servo1.write(ang2_r);
+// angle checking and setting speed       
+     if(firstAngFlag == True){
+        initAng = ang1;
+        firstAngFlag = False;
+      }
+      if(angFlag == True){
+        if(ang1 > 0){
+          speed1 = angCons * ang1;
+          speed2 = 0;
+          }else{
+          speed2 = angCons * abs(ang1)
+          speed1 = 0;
+            }
+        if(ang1 - initAng*updateRate < angThreshold){
+          angFlag = False;
+          distFalg = True;
+          firstDistFlag = True;
+         }        
+        }
+
+//////////////////////////////////////        
+
 
 
       

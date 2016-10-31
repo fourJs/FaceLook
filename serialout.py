@@ -4,7 +4,7 @@ import serial
 class serialConnect(object):
     def __init__(self, calibrateFlag = False):
         self.ser = serial.Serial(
-        port='/dev/ttyACM1',
+        port='/dev/cu.usbmodem1411',
         baudrate=9600,
         parity=serial.PARITY_ODD,
         stopbits=serial.STOPBITS_TWO,
@@ -20,7 +20,8 @@ class serialConnect(object):
 
     def sendSerialdata(self,packet):
         self.ser.write(str(packet)+';')
-        time.sleep(0.05)
+        # time.sleep(0.05)
+
         # out = ""
         # while self.ser.inWaiting() > 0:
         #     out += self.ser.read(1)
