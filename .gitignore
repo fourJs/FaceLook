@@ -1,0 +1,14 @@
+
+
+dataBase/
+processData/
+
+*.pgm
+*.png
+*.jpg
+*.p
+*.npy
+*.pkl
+
+.DS_Store/
+.DS_Store
