@@ -17,29 +17,40 @@ void setup()
   myServox.attach(9);
   myServoy.attach(10); 
   Serial.begin(9600);
+  establishContact();
   Serial.println("Testing Serial");
+  
+}
+
+void establishContact() {
+  while (Serial.available() <= 0) {
+    Serial.print('A');   // send a capital A
+    delay(300);
+  }
 }
 
 void loop() {
-
+  establishContact();
   while (Serial.available()) {
     delay(10);
     if (Serial.available() >0) {
-  char c = Serial.read();  //gets one byte from serial buffer
-  readString += c; //makes the string readString
+      char c = Serial.read();  //gets one byte from serial buffer
+      readString += c; //makes the string readString  
     }
   }
 
   if (readString.length() >0) {
-  initializer = readString.substring(0, 1);
-  servox = readString.substring(1, 4);
+  Serial.print(readString);
+  readString.trim();
+  initializer = readString.substring(0,1);
+  servox = readString.substring(1,4);
   servoy = readString.substring(5,8);
+  Serial.println(initializer);
          
 
   int n1=0; //declare as number
   int n2=0;
-        if (initializer == "(")
-        {
+        if (initializer == "("){
           if (servox == "pos")
           {
             Serial.println();
@@ -65,8 +76,15 @@ void loop() {
             servoypos=n2;
             n2=map(n2,0,180,1000,2000);
             myServoy.writeMicroseconds(n2);
-            readString="";
+            Serial.print(readString);
+            readString="";            
           }
+        }
+        else{
+          readString = "";
+          while(Serial.available()){
+            Serial.read();
+            }
         }
 }
 }

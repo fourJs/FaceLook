@@ -9,10 +9,10 @@ int append = 0;
 
 //float ang1 = 0.0;
 //float ang2 = 0.0;
-float dist = 0.0;
+int dist = 0;
 
-float ang1_r = 0.0;
-float ang2_r = 0.0;
+int ang1_r = 0;
+int ang2_r = 0;
 
 //float ang1_0 = 0.0;
 //float ang1_1 = 0.0;
@@ -39,6 +39,13 @@ void establishContact() {
 
 }
 
+int convert2int(String a){
+  int dot = a.indexOf('.');
+  String b = a.substring(0,dot-1);
+  b.trim();
+  return b.toInt();
+}
+
 void parsepacket(String packet1){
     int len = packet1.length();
     packet1.remove(0,1);
@@ -48,22 +55,25 @@ void parsepacket(String packet1){
     String sTheta = packet1.substring(0,cmaIdx-1);
     String sPhi = packet1.substring(cmaIdx+2,scmaIdx);
     String sDist = packet1.substring(scmaIdx+2);
-    sTheta.trim();
-    sPhi.trim();
-    sDist.trim();
-    Serial.print("before:");
-    Serial.print(sTheta);
-    Serial.print(" ");
-    Serial.print(sPhi);
-    Serial.print(" ");
-    Serial.println(sDist);
+
+
 //    String sThetat= "80.9"; 
 //    String sPhit = "91.05";
 //    String sDistt = "60.1";
 
-    ang1_r = sTheta.toInt();
-    ang2_r = sPhi.toInt();
-    dist = sDist.toInt();
+    Serial.print("before:");
+    Serial.print(sTheta);
+    Serial.print("\t");
+//    Serial.println(sTheta.length());
+    Serial.print(sPhi);
+    Serial.print("\t");
+//    Serial.println(sPhi.length());
+    Serial.println(sDist);
+//    Serial.println(sDist.length());
+
+    ang1_r = convert2int(sTheta);
+    ang2_r = convert2int(sPhi);
+    dist = convert2int(sDist);
     Serial.print("after:");
     Serial.print(ang1_r);
     Serial.print("\t");
