@@ -1,15 +1,17 @@
 #include <Servo.h>
 
-char buffer[16];
-int  bufferIndex = 0;
+char c;
 int servoxpos=0;
 int servoypos=0;
+int dist = 0;
 Servo myServox;
 Servo myServoy;
 String readString="";
 String initializer="";
 String servox="";
 String servoy="";
+String dists ="";
+
 void setup()
 {
   pinMode(9, OUTPUT);
@@ -17,74 +19,76 @@ void setup()
   myServox.attach(9);
   myServoy.attach(10); 
   Serial.begin(9600);
-  establishContact();
   Serial.println("Testing Serial");
   
 }
 
 void establishContact() {
   while (Serial.available() <= 0) {
-    Serial.print('A');   // send a capital A
+    Serial.println('A');   // send a capital A to establish contact
     delay(300);
   }
 }
 
-void loop() {
-  establishContact();
-  while (Serial.available()) {
-    delay(10);
-    if (Serial.available() >0) {
-      char c = Serial.read();  //gets one byte from serial buffer
-      readString += c; //makes the string readString  
+void readserial(){
+    while (Serial.available()>0 && c!=")") {
+    c = Serial.read();  //gets one byte from serial buffer
+    readString += c; //makes the string readString  
     }
-  }
-
-  if (readString.length() >0) {
-  Serial.print(readString);
-  readString.trim();
-  initializer = readString.substring(0,1);
-  servox = readString.substring(1,4);
-  servoy = readString.substring(5,8);
-  Serial.println(initializer);
-         
-
-  int n1=0; //declare as number
-  int n2=0;
-        if (initializer == "("){
-          if (servox == "pos")
-          {
-            Serial.println();
-            Serial.print("current pan position is ");
-            Serial.print(servoxpos);
-            Serial.println();
-            Serial.print("current tilt position is ");
-            Serial.print(servoypos);
-            readString="";
-          }
-          else
-          {  
-            char carray1[4];
-            servox.toCharArray(carray1, sizeof(carray1));
-            n1 = atoi(carray1);
-            servoxpos=n1;
-            n1=map(n1,0,180,1000,2000);
-            myServox.writeMicroseconds(n1);
-                        
-            char carray2[4];
-            servoy.toCharArray(carray2, sizeof(carray2));
-            n2 = atoi(carray2);
-            servoypos=n2;
-            n2=map(n2,0,180,1000,2000);
-            myServoy.writeMicroseconds(n2);
-            Serial.print(readString);
-            readString="";            
-          }
-        }
-        else{
-          readString = "";
-          while(Serial.available()){
-            Serial.read();
-            }
-        }
+    c = ""; //empty character buffer
 }
+
+void parsepacket(){
+    readString.trim();
+    initializer = readString.substring(0,1);
+    if(initializer=="("){
+      Serial.print(readString);
+      servox = readString.substring(1,4);
+      servoy = readString.substring(5,8);
+      dists=readString.substring(9,12);       
+  
+  //      Serial.print(servox);
+      
+      char carray1[4];
+      char carray2[4];
+      char carray3[4];
+      
+      servox.toCharArray(carray1, sizeof(carray1));
+      servoy.toCharArray(carray2, sizeof(carray2));
+      dists.toCharArray(carray3, sizeof(carray3));
+  
+      Serial.print(carray1);
+      
+      servoxpos = atoi(carray1);
+      servoypos = atoi(carray2);
+      dist = atoi(carray3);
+      Serial.print(servoxpos);      
+    }
+
+    readString="";
+
+}
+
+void moveservo(){
+  int n1 = map(servoxpos,0,180,1000,2000);
+  int n2 = map(servoypos,0,180,1000,2000);
+  myServox.writeMicroseconds(n1);
+  myServoy.writeMicroseconds(n2);
+}
+
+
+void loop() {
+//  establishContact();
+  readserial();
+  parsepacket();
+  Serial.print("(");
+  Serial.print(servoxpos);
+  Serial.print(",");
+  Serial.print(servoypos);
+  Serial.print(",");
+  Serial.print(dist);
+  Serial.println(")");  
+  Serial.flush();
+  delay(200);
+  moveservo();
 }

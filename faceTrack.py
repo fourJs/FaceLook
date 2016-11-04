@@ -105,11 +105,12 @@ class faceTrack(object):
         while (self.runFlag):
             (theta,phi,realDist) = self.outputDistAng()
             packet = "(" + '%03d'%int(theta) + "," + '%03d'%int(phi) + "," + '%03d'%int(realDist) + ")"
-            if packet == '(000,000,000)':
+            if packet == '(090,090,000)':
                 print "no face"
             else:
+                print "packet",packet
                 self.serConn.sendSerialdata(packet)
-                print packet
+
 
         self.serConn.close()
         self.close()
