@@ -1,16 +1,12 @@
 #include <Servo.h>
 
-char c;
+int c;
 int servoxpos=0;
 int servoypos=0;
 int dist = 0;
 Servo myServox;
 Servo myServoy;
-String readString="";
-String initializer="";
-String servox="";
-String servoy="";
-String dists ="";
+int packet[12];
 
 void setup()
 {
@@ -20,53 +16,43 @@ void setup()
   myServoy.attach(10); 
   Serial.begin(9600);
   Serial.println("Testing Serial");
-  
 }
+
 
 void establishContact() {
   while (Serial.available() <= 0) {
-    Serial.println('A');   // send a capital A to establish contact
+    Serial.print("A)");   // send a capital A
     delay(300);
   }
 }
-
+  
 void readserial(){
-    while (Serial.available()>0 && c!=")") {
-    c = Serial.read();  //gets one byte from serial buffer
-    readString += c; //makes the string readString  
+    int i = 0;
+    while (Serial.available()>0 && i<=12) {
+      c = Serial.read();  //gets one byte from serial buffer
+      packet[i] = c;
+//      Serial.print(c);
+      i++;
     }
-    c = ""; //empty character buffer
+    c = 0; //empty character buffer
+}
+
+int translate(int a){
+  if(a>=176){
+    return a-176;
+  }
+  else{
+    return a-48;
+  }
 }
 
 void parsepacket(){
-    readString.trim();
-    initializer = readString.substring(0,1);
-    if(initializer=="("){
-      Serial.print(readString);
-      servox = readString.substring(1,4);
-      servoy = readString.substring(5,8);
-      dists=readString.substring(9,12);       
   
-  //      Serial.print(servox);
-      
-      char carray1[4];
-      char carray2[4];
-      char carray3[4];
-      
-      servox.toCharArray(carray1, sizeof(carray1));
-      servoy.toCharArray(carray2, sizeof(carray2));
-      dists.toCharArray(carray3, sizeof(carray3));
-  
-      Serial.print(carray1);
-      
-      servoxpos = atoi(carray1);
-      servoypos = atoi(carray2);
-      dist = atoi(carray3);
-      Serial.print(servoxpos);      
-    }
-
-    readString="";
-
+    if(packet[0]==168){
+      servoxpos = 100*(translate(packet[1]))+10*(translate(packet[2]))+(translate(packet[3]));
+      servoypos = 100*(translate(packet[5]))+10*(translate(packet[6]))+(translate(packet[7]));
+      dist = 100*(translate(packet[9]))+10*(translate(packet[10]))+(translate(packet[11]));  
+    }    
 }
 
 void moveservo(){
@@ -78,8 +64,8 @@ void moveservo(){
 
 
 void loop() {
-//  establishContact();
-  readserial();
+  establishContact();
+  readserial();   
   parsepacket();
   Serial.print("(");
   Serial.print(servoxpos);

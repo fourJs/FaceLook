@@ -27,9 +27,12 @@ while 1 :
     else:
         # send the character to the device
         # (note that I happend a \r\n carriage return and line feed to the characters - this is requested by my device)
-        ser.write(str(input))
+        a = str(input)
+
+        ser.write(str.encode(a,"UTF-8"))
         out = ''
-        while ser.inWaiting() > 0 && out!='A':
+
+        while ser.inWaiting() > 0:
             out = ser.read(1)        
 
         if out != '':

@@ -101,7 +101,7 @@ class faceTrack(object):
             self.calibrate(float(realDst), float(realWidth))
 
         
-        self.serConn.sendSerialdata((0,0,0))
+        self.serConn.sendSerialdata("(000,000,000)")
         while (self.runFlag):
             (theta,phi,realDist) = self.outputDistAng()
             packet = "(" + '%03d'%int(theta) + "," + '%03d'%int(phi) + "," + '%03d'%int(realDist) + ")"

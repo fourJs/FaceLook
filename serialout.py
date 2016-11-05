@@ -27,7 +27,7 @@ class serialConnect(object):
         out = ''
         line = ''
         print "waiting for data"
-        while out!='\n':
+        while out!=")":
             out = self.ser.read(1)
             line +=out
         print line
