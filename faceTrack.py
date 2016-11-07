@@ -3,7 +3,7 @@
 import cv2
 import numpy as np
 from math import sqrt, pi
-import serialout as st
+# import serialout as st
 
 
 class faceTrack(object):
@@ -18,7 +18,7 @@ class faceTrack(object):
         self.focus = 816 # px, webcam focal distance
         self.realWidth = 16  # cm, face width
         self.runFlag = True
-        self.serConn = st.serialConnect()
+        # self.serConn = st.serialConnect()
 
     def calibrate(self, realDst, realWidth):
         self.realWidth = realWidth
@@ -93,15 +93,15 @@ class faceTrack(object):
      
 
     def run(self):
-        if not self.serConn.isopen:
-            self.serConn.open()
-        if self.calibrateFlag:
-            data = raw_input("please input the distance and face width: (example: distance, width)")
-            [realDst, realWidth] = data.split(",")
-            self.calibrate(float(realDst), float(realWidth))
+        # if not self.serConn.isopen:
+        #     self.serConn.open()
+        # if self.calibrateFlag:
+        #     data = raw_input("please input the distance and face width: (example: distance, width)")
+        #     [realDst, realWidth] = data.split(",")
+        #     self.calibrate(float(realDst), float(realWidth))
 
         
-        self.serConn.sendSerialdata("(000,000,000)")
+        # self.serConn.sendSerialdata("(000,000,000)")
         while (self.runFlag):
             (theta,phi,realDist) = self.outputDistAng()
             packet = "(" + '%03d'%int(theta) + "," + '%03d'%int(phi) + "," + '%03d'%int(realDist) + ")"
@@ -109,7 +109,7 @@ class faceTrack(object):
                 print "no face"
             else:
                 print "packet",packet
-                self.serConn.sendSerialdata(packet)
+                # self.serConn.sendSerialdata(packet)
 
 
         self.serConn.close()
