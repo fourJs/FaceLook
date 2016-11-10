@@ -119,7 +119,7 @@ class faceTrack(object):
                     (theta,phi,realDist) = self.outputDistAng(frame)
                     
                     print "theta ", theta
-                    servo.write(theta)
+                    self.servo.write(theta)
                     # time.sleep(1)
 
                     stream.seek(0)
