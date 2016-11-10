@@ -3,6 +3,9 @@
 import cv2
 import numpy as np
 from math import sqrt, pi
+from nanpy import Servo
+import time
+
 # import serialout as st
 
 
@@ -19,6 +22,7 @@ class faceTrack(object):
         self.realWidth = 16  # cm, face width
         self.runFlag = True
         # self.serConn = st.serialConnect()
+        self.servo = Servo(9)
 
     def calibrate(self, realDst, realWidth):
         self.realWidth = realWidth
@@ -104,6 +108,11 @@ class faceTrack(object):
         # self.serConn.sendSerialdata("(000,000,000)")
         while (self.runFlag):
             (theta,phi,realDist) = self.outputDistAng()
+            print "theta ", theta
+            
+            servo.write(theta)
+            # time.sleep(1)
+
             packet = "(" + '%03d'%int(theta) + "," + '%03d'%int(phi) + "," + '%03d'%int(realDist) + ")"
             if packet == '(090,090,000)':
                 print "no face"
@@ -112,8 +121,8 @@ class faceTrack(object):
                 # self.serConn.sendSerialdata(packet)
 
 
-        self.serConn.close()
-        self.close()
+        # self.serConn.close()
+        # self.close()
 
 
 if __name__ == '__main__':
