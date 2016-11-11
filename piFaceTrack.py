@@ -16,11 +16,12 @@ class faceTrack(object):
     """class for face tracking algorithm"""
     def __init__(self, calibrateFlag = False):
         self.calibrateFlag = calibrateFlag
-        self.focus = 816 # px, webcam focal distance
+        self.focus = 250 # px, webcam focal distance
         self.realWidth = 16  # cm, face width
         self.runFlag = True
         self.firstRun = True
-        self.servo = Servo(9)
+        self.servo = Servo(11)
+        self.prePhi = 90
 
 
     def calibrate(self, realDst, realWidth):
@@ -115,11 +116,10 @@ class faceTrack(object):
                         height,width,channel = frame.shape
                         self.mid = (int(width/2),int(height/2)) 
                         self.firstRun = False
-
+    
                     (theta,phi,realDist) = self.outputDistAng(frame)
                     
-                    print "theta ", theta
-                    self.servo.write(theta)
+            
                     # time.sleep(1)
 
                     stream.seek(0)
@@ -130,6 +130,11 @@ class faceTrack(object):
                         print "no face"
                     else:
                         print packet
+                        print "phi ", phi - 90
+                        ang = int(self.prePhi-(phi-90))
+                        print ang
+                        self.servo.write(ang)
+                        self.prePhi = ang
 
 
 
