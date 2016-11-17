@@ -3,6 +3,7 @@ import picamera
 import socket
 import cv2
 import sys
+import pickle
 
 runFlag = True
 
@@ -22,19 +23,18 @@ with picamera.PiCamera() as camera:
             camera.capture(stream, 'bgr', use_video_port=True)
             # stream.array now contains the image data in BGR order
             frame = stream.array
-##            cv2.imshow('frame',frame)
+            cv2.imshow('frame',frame)
             stream.seek(0)
             stream.truncate()
-            sys.getsizeof(frame)
+            
             try:   
                 # Send data
-                message = frame
-##                message = 'This is the message.  It will be repeated.'
-                print >>sys.stderr, 'sending "%s"' % message
+                message = pickle.dumps(frame)
+                print sys.getsizeof(message)
                 sock.sendall(message)       
-                while data!="I got it":
-                    data = sock.recv(8) 
-                    print >>sys.stderr, 'received "%s"' % data
+##                while data!="I got it":
+##                    data = sock.recv(8) 
+##                    print >>sys.stderr, 'received "%s"' % data
             except Exception as e:
                 pass
 
