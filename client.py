@@ -6,7 +6,13 @@ import sys
 
 runFlag = True
 
-
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Connect the socket to the port where the server is listening
+server_address = ('192.168.33.237', 1234)
+print >>sys.stderr, 'connecting to %s port %s' % server_address
+sock.connect(server_address)
+data = ""
 
 with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as stream:
@@ -16,44 +22,29 @@ with picamera.PiCamera() as camera:
             camera.capture(stream, 'bgr', use_video_port=True)
             # stream.array now contains the image data in BGR order
             frame = stream.array
-            cv2.imshow('frame',frame)
-            
+##            cv2.imshow('frame',frame)
             stream.seek(0)
             stream.truncate()
+            sys.getsizeof(frame)
+            try:   
+                # Send data
+                message = frame
+##                message = 'This is the message.  It will be repeated.'
+                print >>sys.stderr, 'sending "%s"' % message
+                sock.sendall(message)       
+                while data!="I got it":
+                    data = sock.recv(8) 
+                    print >>sys.stderr, 'received "%s"' % data
+            except Exception as e:
+                pass
+
+            data = ""
 
             k = cv2.waitKey(1)
             if k == ord('q'):
                 runFlag = False
-                cv2.destroyAllWindows() 
+                cv2.destroyAllWindows()
+                
+print >>sys.stderr, 'closing socket'
+sock.close()
 
-
-        
-
-##
-### Create a TCP/IP socket
-##sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-##
-### Connect the socket to the port where the server is listening
-##server_address = ('192.168.33.237', 1234)
-##print >>sys.stderr, 'connecting to %s port %s' % server_address
-##sock.connect(server_address)
-##
-##try:
-##    
-##    # Send data
-##    message = 'This is the message.  It will be repeated.'
-##    print >>sys.stderr, 'sending "%s"' % message
-##    sock.sendall(message)
-##
-##    # Look for the response
-##    amount_received = 0
-##    amount_expected = len(message)
-##    
-##    while amount_received < amount_expected:
-##        data = sock.recv(16)
-##        amount_received += len(data)
-##        print >>sys.stderr, 'received "%s"' % data
-##
-##finally:
-##    print >>sys.stderr, 'closing socket'
-##    sock.close()
