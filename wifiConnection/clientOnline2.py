@@ -13,26 +13,26 @@ with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as stream:
         camera.resolution = (160, 128) 
         
-		while True:
+        while True:
 
-		    camera.capture(stream, 'bgr', use_video_port=True)
-		    frame = stream.array
+            camera.capture(stream, 'bgr', use_video_port=True)
+            frame = stream.array
 
-			# capture = cv2.VideoCapture(0)
-			# ret, frame = capture.read()
+            # capture = cv2.VideoCapture(0)
+            # ret, frame = capture.read()
 
-			# encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),90]
-			encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),10]	
-			result, imgencode = cv2.imencode('.jpg', frame, encode_param)
-			data = numpy.array(imgencode)
-			stringData = data.tostring()
+            # encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),90]
+            encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),10] 
+            result, imgencode = cv2.imencode('.jpg', frame, encode_param)
+            data = numpy.array(imgencode)
+            stringData = data.tostring()
 
-			sock.send( str(len(stringData)).ljust(16));
-			sock.send( stringData );
+            sock.send( str(len(stringData)).ljust(16));
+            sock.send( stringData );
 
-			decimg=cv2.imdecode(data,1)
-			cv2.imshow('CLIENT',decimg)
-			cv2.waitKey(1)
+            decimg=cv2.imdecode(data,1)
+            cv2.imshow('CLIENT',decimg)
+            cv2.waitKey(1)
 
-sock.close()	
+sock.close()    
 cv2.destroyAllWindows()
