@@ -31,7 +31,10 @@ with picamera.PiCamera() as camera:
 
             sock.send( str(len(stringData)).ljust(16));
             sock.send( stringData );
-
+            
+            stream.seek(0)
+            stream.truncate()
+            
             # decimg=cv2.imdecode(data,1)
             # cv2.imshow('CLIENT',decimg)
             # cv2.waitKey(1)
