@@ -8,13 +8,13 @@ import struct
 
 runFlag = True
 
-# # Create a TCP/IP socket
-# sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# # Connect the socket to the port where the server is listening
-# server_address = ('192.168.32.132', 1234)
-# print >>sys.stderr, 'connecting to %s port %s' % server_address
-# sock.connect(server_address)
-# data = ""
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Connect the socket to the port where the server is listening
+server_address = ('192.168.32.132', 1234)
+print >>sys.stderr, 'connecting to %s port %s' % server_address
+sock.connect(server_address)
+data = ""
 
 with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as stream:
@@ -28,21 +28,21 @@ with picamera.PiCamera() as camera:
 
             
             # try:   
-                # Send data
+            #     Send data
         
-            # message = pickle.dumps(frame)
-            # sock.sendall(struct.pack("L", len(message))+ message) ### new code
+            message = pickle.dumps(frame)
+            sock.sendall(struct.pack("L", len(message))+ message) ### new code
 
 
-                # print sys.getsizeof(message)
-                # sock.sendall(message)       
-               # while data!="I got it":
-               #     data = sock.recv(8) 
-               #     print >>sys.stderr, 'received "%s"' % data
+            #     print sys.getsizeof(message)
+            #     sock.sendall(message)       
+            #    while data!="I got it":
+            #        data = sock.recv(8) 
+            #        print >>sys.stderr, 'received "%s"' % data
             # except Exception as e:
             #     pass
 
-            # data = ""
+            data = ""
             
             stream.seek(0)
             stream.truncate()
