@@ -12,7 +12,7 @@ def recvall(sock, count):
         count -= len(newbuf)
     return buf
 
-TCP_IP = "localhost"
+TCP_IP = "192.168.32.132"
 TCP_PORT = 5001
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -28,5 +28,6 @@ while True:
 	decimg=cv2.imdecode(data,1)
 	cv2.imshow('SERVER',decimg)
 	cv2.waitKey(1)
+	
 s.close()	
 cv2.destroyAllWindows() 
