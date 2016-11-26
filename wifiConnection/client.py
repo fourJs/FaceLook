@@ -30,7 +30,7 @@ with picamera.PiCamera() as camera:
             # try:   
                 # Send data
             message = pickle.dumps(frame)
-            sock.sendall(struct.pack("H", len(message))+ message) ### new code
+            sock.sendall(struct.pack("L", len(message))+ message) ### new code
 
                 # print sys.getsizeof(message)
                 # sock.sendall(message)       
