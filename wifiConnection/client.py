@@ -28,14 +28,14 @@ with picamera.PiCamera() as camera:
             
             # try:   
                 # Send data
-                message = pickle.dumps(frame)
-                sock.sendall(struct.pack("H", len(message))+ message) ### new code
+            message = pickle.dumps(frame)
+            sock.sendall(struct.pack("H", len(message))+ message) ### new code
 
                 # print sys.getsizeof(message)
                 # sock.sendall(message)       
-##                while data!="I got it":
-##                    data = sock.recv(8) 
-##                    print >>sys.stderr, 'received "%s"' % data
+               # while data!="I got it":
+               #     data = sock.recv(8) 
+               #     print >>sys.stderr, 'received "%s"' % data
             # except Exception as e:
             #     pass
 
