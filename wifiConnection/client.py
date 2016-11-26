@@ -24,21 +24,25 @@ with picamera.PiCamera() as camera:
             # stream.array now contains the image data in BGR order
             frame = stream.array
             cv2.imshow('frame',frame)
-            stream.seek(0)
-            stream.truncate()
+
             
-            try:   
+            # try:   
                 # Send data
                 message = pickle.dumps(frame)
-                print sys.getsizeof(message)
-                sock.sendall(message)       
+                sock.sendall(struct.pack("H", len(message))+ message) ### new code
+
+                # print sys.getsizeof(message)
+                # sock.sendall(message)       
 ##                while data!="I got it":
 ##                    data = sock.recv(8) 
 ##                    print >>sys.stderr, 'received "%s"' % data
-            except Exception as e:
-                pass
+            # except Exception as e:
+            #     pass
 
             data = ""
+            
+            stream.seek(0)
+            stream.truncate()
 
             k = cv2.waitKey(1)
             if k == ord('q'):
