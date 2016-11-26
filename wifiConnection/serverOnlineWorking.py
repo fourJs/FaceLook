@@ -30,5 +30,8 @@ while True:
 		cv2.imshow('SERVER',decimg)
 		cv2.waitKey(1)
 
+        reply = "I got it"
+        s.sendall(reply)
+
 s.close()	
 cv2.destroyAllWindows() 
