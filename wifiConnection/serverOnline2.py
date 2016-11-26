@@ -22,12 +22,13 @@ conn, addr = s.accept()
 
 while True:
 	length = recvall(conn,16)
-	stringData = recvall(conn, int(length))
-	data = numpy.fromstring(stringData, dtype='uint8')
+	if length != None:
+		stringData = recvall(conn, int(length))
+		data = numpy.fromstring(stringData, dtype='uint8')
 
-	decimg=cv2.imdecode(data,1)
-	cv2.imshow('SERVER',decimg)
-	cv2.waitKey(1)
+		decimg=cv2.imdecode(data,1)
+		cv2.imshow('SERVER',decimg)
+		cv2.waitKey(1)
 
 s.close()	
 cv2.destroyAllWindows() 
