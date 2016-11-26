@@ -4,9 +4,10 @@ import cv2
 import numpy
 from picamera.array import PiRGBArray
 import picamera
+import sys
 
 TCP_IP = "192.168.32.132"
-TCP_PORT = 5001
+TCP_PORT = 1234
 
 sock = socket.socket()
 sock.connect((TCP_IP, TCP_PORT))

@@ -14,7 +14,7 @@ def recvall(sock, count):
     return buf
 
 TCP_IP = "192.168.32.132"
-TCP_PORT = 5001
+TCP_PORT = 1234
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT))
