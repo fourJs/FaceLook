@@ -28,6 +28,6 @@ while True:
 	decimg=cv2.imdecode(data,1)
 	cv2.imshow('SERVER',decimg)
 	cv2.waitKey(1)
-	
+
 s.close()	
 cv2.destroyAllWindows() 
