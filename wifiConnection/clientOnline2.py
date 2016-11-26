@@ -32,9 +32,9 @@ with picamera.PiCamera() as camera:
             sock.send( str(len(stringData)).ljust(16));
             sock.send( stringData );
 
-            decimg=cv2.imdecode(data,1)
-            cv2.imshow('CLIENT',decimg)
-            cv2.waitKey(1)
+            # decimg=cv2.imdecode(data,1)
+            # cv2.imshow('CLIENT',decimg)
+            # cv2.waitKey(1)
 
 sock.close()    
 cv2.destroyAllWindows()
