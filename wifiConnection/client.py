@@ -4,6 +4,7 @@ import socket
 import cv2
 import sys
 import pickle
+import struct
 
 runFlag = True
 
