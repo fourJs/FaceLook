@@ -11,7 +11,7 @@ TCP_PORT = 1234
 
 sock = socket.socket()
 sock.connect((TCP_IP, TCP_PORT))
-data = ""
+# data = ""
 
 with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as stream:
@@ -37,10 +37,12 @@ with picamera.PiCamera() as camera:
             stream.seek(0)
             stream.truncate()
 
-            while data!="I got it":
-                data = sock.recv(8) 
-                print >>sys.stderr, 'received "%s"' % data
-            data = ""                
+            # while data!="I got it":
+            #     data = sock.recv(8) 
+            #     print >>sys.stderr, 'received "%s"' % data
+            # data = ""                
+
+            
             # decimg=cv2.imdecode(data,1)
             # cv2.imshow('CLIENT',decimg)
             # cv2.waitKey(1)
