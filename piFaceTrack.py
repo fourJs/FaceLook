@@ -20,7 +20,9 @@ class faceTrack(object):
         self.realWidth = 16  # cm, face width
         self.runFlag = True
         self.firstRun = True
-        self.servo = Servo(11)
+        self.servo_tilt = Servo(11)
+        self.servo_r= Servo(9)
+        self.servo_l= Servo(10)
         self.prePhi = 90
 
 
@@ -96,7 +98,35 @@ class faceTrack(object):
         self.cap.release()
         cv2.destroyAllWindows() 
      
+    def tiltmotor(self,phi):
+        nphi = int(self.prePhi-(phi-90))
+        print nphi
+        self.servo_tilt.write(nphi)
+        self.prePhi = nphi
 
+
+    
+    def controlcar(self,theta,dist):
+        if dist<=10 :
+            self.servo_r.write(0)
+            self.servo_l.write(0)
+        else:
+            if abs(theta)<=2:
+                self.servo_r.write(20)
+                self.servo_l.write(120)
+            else if theta>2:
+                self.servo_l.write(120)
+                self.servo_r.write(0)
+                time.sleep(0.05*(abs(theta)-2))
+                self.servo_r.write(20)
+            else if theta<-2:
+                self.servo_r.write(20)
+                self.servo_l.write(0)
+                time.sleep(0.05*(abs(theta)-2))
+                self.servo_l.write(120)
+                
+    
+        
 
     def run(self): 
         # if self.calibrateFlag:
@@ -131,10 +161,7 @@ class faceTrack(object):
                     else:
                         print packet
                         print "phi ", phi - 90
-                        ang = int(self.prePhi-(phi-90))
-                        print ang
-                        self.servo.write(ang)
-                        self.prePhi = ang
+                        self.tiltmotor(phi)
 
 
 
