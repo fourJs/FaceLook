@@ -9,7 +9,7 @@ import struct ## new
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind the socket to the port
-server_address = ('192.168.32.132', 1234)
+server_address = ('192.168.34.196', 5000)
 print >>sys.stderr, 'starting up on %s port %s' % server_address
 sock.bind(server_address)
 
