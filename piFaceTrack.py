@@ -105,12 +105,15 @@ class faceTrack(object):
         self.prePhi = nphi
 
 
-    
+    #Servo.write(20)=> move clockwise (full speed)
+    #120 => move counterclockwise (full speed)
+    #0 => stop car
     def controlcar(self,theta,dist):
-        if dist<=10 :
+        if dist<=10:
             self.servo_r.write(0)
             self.servo_l.write(0)
         else:
+            #if angle diff is less than 2 degrees, go straight
             if abs(theta)<=2:
                 self.servo_r.write(20)
                 self.servo_l.write(120)
@@ -125,8 +128,24 @@ class faceTrack(object):
                 time.sleep(0.05*(abs(theta)-2))
                 self.servo_l.write(120)
                 
-    
-        
+    def pancar(self,theta):
+        if abs(theta)<=2:
+            self.servo_r.write(0)
+            self.servo_l.write(0)
+        else if theta>2:
+            self.servo_l.write(120)
+            self.servo_r.write(120)
+            time.sleep(0.05*(abs(theta)-2))
+            self.servo_r.write(0)
+            self.servo_l.write(0)
+        else if theta<-2:
+            self.servo_l.write(20)
+            self.servo_r.write(20)
+            time.sleep(0.05*(abs(theta)-2))
+            self.servo_r.write(0)
+            self.servo_l.write(0)
+
+            
 
     def run(self): 
         # if self.calibrateFlag:
@@ -162,7 +181,8 @@ class faceTrack(object):
                         print packet
                         print "phi ", phi - 90
                         self.tiltmotor(phi)
-
+                        self.controlcar(theta,realDist)
+                        #self.pancar(theta)
 
 
 
