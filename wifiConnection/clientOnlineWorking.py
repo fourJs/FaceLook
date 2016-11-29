@@ -6,7 +6,7 @@ from picamera.array import PiRGBArray
 import picamera
 import sys
 
-TCP_IP = "192.168.32.132"
+TCP_IP = "192.168.34.196"
 TCP_PORT = 1234
 
 sock = socket.socket()
