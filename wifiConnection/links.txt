@@ -1,1 +1,7 @@
+
+working gstreamer link:
+
 http://blog.gbaman.info/?p=150
+
+check ip address:
+http://apple.stackexchange.com/questions/20547/how-do-i-find-my-ip-address-from-the-command-line
