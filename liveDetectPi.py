@@ -119,9 +119,9 @@ class LiveDetectPi(object):
             # Capture frame-by-frame
             # ret, frame = self.video_capture.read()
 
-            length = self.recvall(conn,16)
+            length = self.recvall(self.conn,16)
             if length != None:
-                stringData = recvall(self.conn, int(length))
+                stringData = self.recvall(self.conn, int(length))
                 data = np.fromstring(stringData, dtype='uint8')
                 frame = cv2.imdecode(data,1)
 
