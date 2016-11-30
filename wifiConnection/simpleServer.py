@@ -26,21 +26,21 @@ data = ""
 
 print >>sys.stderr, 'connection from', client_address
 
-    # Receive the data in small chunks and retransmit it
-    while True:
-        data = connection.recv(16)
-        print >>sys.stderr, 'received "%s"' % data
+# Receive the data in small chunks and retransmit it
+while True:
+    data = connection.recv(16)
+    print >>sys.stderr, 'received "%s"' % data
 
-        # if data:
-        #     print >>sys.stderr, 'sending data back to the client'
-            # reply = "I got it"
-            # connection.sendall(reply)
-        # else:
-            # print >>sys.stderr, 'no more data from', client_address
-            # break
+    # if data:
+    #     print >>sys.stderr, 'sending data back to the client'
+        # reply = "I got it"
+        # connection.sendall(reply)
+    # else:
+        # print >>sys.stderr, 'no more data from', client_address
+        # break
 
-    # except Exception as e:
-    #     pass       
+# except Exception as e:
+#     pass       
 
 # Clean up the connection
 connection.close()
