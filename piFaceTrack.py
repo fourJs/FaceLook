@@ -21,8 +21,8 @@ class faceTrack(object):
         self.runFlag = True
         self.firstRun = True
         self.servo_tilt = Servo(11)
-        self.servo_r= Servo(9)
-        self.servo_l= Servo(10)
+        self.servo_r= Servo(5)
+        self.servo_l= Servo(9)
         self.prePhi = 90
 
 
@@ -117,31 +117,33 @@ class faceTrack(object):
             if abs(theta)<=2:
                 self.servo_r.write(20)
                 self.servo_l.write(120)
-            else if theta>2:
+            elif theta>2:
                 self.servo_l.write(120)
                 self.servo_r.write(0)
-                time.sleep(0.05*(abs(theta)-2))
+                time.sleep(0.01*(abs(theta)-2))
                 self.servo_r.write(20)
-            else if theta<-2:
+            elif theta<-2:
                 self.servo_r.write(20)
                 self.servo_l.write(0)
-                time.sleep(0.05*(abs(theta)-2))
+                time.sleep(0.01*(abs(theta)-2))
                 self.servo_l.write(120)
                 
     def pancar(self,theta):
         if abs(theta)<=2:
             self.servo_r.write(0)
             self.servo_l.write(0)
-        else if theta>2:
-            self.servo_l.write(120)
-            self.servo_r.write(120)
+        elif theta>2:
+            print "theta is larger than 2"
+            self.servo_l.write(98)
+            self.servo_r.write(98)
             time.sleep(0.05*(abs(theta)-2))
             self.servo_r.write(0)
             self.servo_l.write(0)
-        else if theta<-2:
+        elif theta<-2:
+            print "theta is larger than -2"
             self.servo_l.write(20)
             self.servo_r.write(20)
-            time.sleep(0.05*(abs(theta)-2))
+            time.sleep(0.01*(abs(theta)-2))
             self.servo_r.write(0)
             self.servo_l.write(0)
 
@@ -180,9 +182,10 @@ class faceTrack(object):
                     else:
                         print packet
                         print "phi ", phi - 90
+                        print "theta", theta - 90
                         self.tiltmotor(phi)
-                        self.controlcar(theta,realDist)
-                        #self.pancar(theta)
+                        #self.controlcar(theta-90,realDist)
+                        self.pancar(theta-90)
 
 
 
