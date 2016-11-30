@@ -7,7 +7,7 @@ import picamera
 import sys
 
 TCP_IP = "192.168.34.189"
-TCP_PORT = 1234
+TCP_PORT = 1324
 
 sock = socket.socket()
 sock.connect((TCP_IP, TCP_PORT))
