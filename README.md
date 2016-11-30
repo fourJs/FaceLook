@@ -4,7 +4,7 @@ A robot that could track people' face and follow.
 #### ENGR 2210 Principles of Engineering 							Fall 2016
 
 
-## Final Project Preproposal
+# Final Project Preproposal
 
 Team name: Js
 Section: Earlier section (0900-1040)
@@ -24,3 +24,8 @@ Our stretch goal is to mount the pan and tilt mechanism to a robot, whether it b
 Anticipated biggest challenges to project implementation
 The biggest challenge is to allow the system to detect a specific person’s face. This involves a button to trigger the camera to take multiple photos of the specific person’s face. Then the model may have to preprocess the data and then use machine learning algorithm to train on it. We are not sure the minimum live data size in order to let the machine to be able to detect the person’s face and the computation efficiency of the model training could be expensive.
 
+
+# Sprint 1 Review Slide
+
+
+[Link here](https://docs.google.com/presentation/d/1E72BuQxvra6gPXHz1A6x111EGJ29zGJA3I-6UuhGR20/edit?usp=sharing)
