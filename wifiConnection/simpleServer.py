@@ -41,8 +41,8 @@ while True:
             print >>sys.stderr, 'no more data from', client_address
             break
 
-    except Exception as e:
-        pass       
+    # except Exception as e:
+    #     pass       
 
 # Clean up the connection
 connection.close()
