@@ -7,7 +7,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = ('192.168.34.189', 5000)
 print >>sys.stderr, 'connecting to %s port %s' % server_address
 sock.connect(server_address)
-data = " "
+# data = " "
 
 while True:
     # try:

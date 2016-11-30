@@ -1,6 +1,7 @@
+ipconfig getifaddr en1
+
 
 working gstreamer link:
-
 http://blog.gbaman.info/?p=150
 
 check ip address:

@@ -28,10 +28,17 @@ class LiveDetectPi(object):
         TCP_IP = "192.168.34.189"
         TCP_PORT = 1324
 
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.s.bind((TCP_IP, TCP_PORT))
-        self.s.listen(True)
-        self.conn, addr = self.s.accept()
+        self.s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s1.bind((TCP_IP, TCP_PORT))
+        self.s1.listen(True)
+        self.conn, addr = self.s1.accept()
+
+        self.s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # Connect the socket to the port where the server is listening
+        server_address = ('192.168.34.189', 5000)
+        print >>sys.stderr, 'connecting to %s port %s' % server_address
+        self.s2.connect(server_address)
+
 
     def recvall(self, sock, count):
         buf = b''
@@ -154,6 +161,8 @@ class LiveDetectPi(object):
                         # frame[face_index * 64: (face_index + 1) * 64, -65:-1, :] = cv2.cvtColor(extracted_face * 255, cv2.COLOR_GRAY2RGB)
                         # frame[face_index * 64: (face_index + 1) * 64, -65:-1, :] = cv2.cvtColor((1 - extracted_face) * 255, cv2.COLOR_GRAY2RGB)
 
+                        self.s2.sendall(str(faceResult) + " " + str(smileResult))
+
                         # annotate main image with a label
                         if faceResult == 1:
                             if smileResult == 1:
@@ -179,7 +188,8 @@ class LiveDetectPi(object):
         # When everything is done, release the capture
         self. video_capture.release()
         cv2.destroyAllWindows()
-        self.s.close()   
+        self.s1.close()
+        self.s2.close()   
 
 
 if __name__ == '__main__':
