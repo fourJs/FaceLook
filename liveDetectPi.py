@@ -157,14 +157,14 @@ class LiveDetectPi(object):
                         # annotate main image with a label
                         if faceResult == 1:
                             if smileResult == 1:
-                                cv2.putText(frame, "James Smiling",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 2, 155, 10)
+                                cv2.putText(frame, "James Smiling",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
                             else:
-                                cv2.putText(frame, "James",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 2, 155, 10)
+                                cv2.putText(frame, "James",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
                         else:
                             if smileResult == 1:
-                                cv2.putText(frame, "Alien Smiling",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 2, 155, 10)
+                                cv2.putText(frame, "Alien Smiling",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
                             else:
-                                cv2.putText(frame, "Alien",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 2, 155, 10)
+                                cv2.putText(frame, "Alien",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
 
                         # increment counter
                         face_index += 1
