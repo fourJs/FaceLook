@@ -8,7 +8,6 @@ import numpy as np
 from math import sqrt, pi
 from nanpy import Servo
 import time
-
 # import serialout as st
 
 
