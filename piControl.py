@@ -61,7 +61,6 @@ class PiControl(object):
 
 
     def run(self):
-        # try:
         while True:
             data = self.connection.recv(16)
             print >>sys.stderr, 'received "%s"' % data
@@ -74,3 +73,5 @@ class PiControl(object):
         self.connection.close()
 
 
+if __name__ == '__main__':
+    PiControl().run()
