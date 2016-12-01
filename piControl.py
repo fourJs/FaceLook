@@ -62,7 +62,7 @@ class PiControl(object):
 
     def run(self):
         while True:
-            data = self.connection.recv(16)
+            data = self.connection.recv(16).strip()
             print >>sys.stderr, 'received "%s"' % data
             [faceResult, smileResult, theta, phi, realDist] = data.split(" ")
             print data.split(" ")            
