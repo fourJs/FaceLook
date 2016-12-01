@@ -64,7 +64,7 @@ class PiControl(object):
         while True:
             data = self.connection.recv(16)
             print >>sys.stderr, 'received "%s"' % data
-            faceResult, smileResult, theta, phi, realDist = data.split(" ")
+            [faceResult, smileResult, theta, phi, realDist] = data.split(" ")
             self.pancar(int(theta) - 90)
             self.tiltmotor(int(phi))
   
