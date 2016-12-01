@@ -7,6 +7,7 @@ from PIL import Image, ImageChops
 import socket
 import cv2
 import sys
+from math import sqrt, pi
 
 class LiveDetectPi(object):
     """ Detect specific smiling face from video feed of Pi """
@@ -22,7 +23,6 @@ class LiveDetectPi(object):
 
         smilePath = "lib/haarcascade_smile.xml"
         self.smileCascade = cv2.CascadeClassifier(smilePath)
-        
         
         TCP_IP = "192.168.34.189"
         TCP_PORT = 1324
@@ -106,7 +106,7 @@ class LiveDetectPi(object):
         return arr
 
     def recognizeFace(self, extracted_face):
-        return self.model1.predict(extracted_face.ravel())
+        return self.model1.predict(extracted_face.ravel())[0]
 
     def predictSmile(self, extracted_face):
         smile = self.smileCascade.detectMultiScale(
@@ -155,6 +155,9 @@ class LiveDetectPi(object):
             else:
                 cv2.putText(frame, "Alien",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
 
+    def rad2deg(self,ang):
+        return ang*(180/pi)
+
     def getDistAng(self, x, y, w, h):
         theta,phi,realDist = 0, 0, 0
 
@@ -178,11 +181,6 @@ class LiveDetectPi(object):
 
 
     def run(self):
-        if self.firstRun:
-            height,width,channel = frame.shape
-            self.mid = (int(width/2),int(height/2)) 
-            self.firstRun = False
-
         while True:
             # Capture frame-by-frame
             length = self.recvall(self.conn,16)
@@ -190,7 +188,12 @@ class LiveDetectPi(object):
                 stringData = self.recvall(self.conn, int(length))
                 data = np.fromstring(stringData, dtype='uint8')
                 frame = cv2.imdecode(data,1)
-
+                
+                if self.firstRun:
+                    height,width,channel = frame.shape
+                    self.mid = (int(width/2),int(height/2)) 
+                    self.firstRun = False
+                
                 # detect faces
                 gray, detected_faces = self.detect_face(frame)
                 print "detected_faces ", detected_faces
@@ -203,7 +206,7 @@ class LiveDetectPi(object):
                         faceResult, smileResult = self.getPredicts(frame, x, y, w, h, gray, face)
                         self.tag(frame, faceResult, smileResult, x, y)
 
-                        message = " ".join[str(faceResult), str(smileResult), str(theta), str(phi), str(realDist)]
+                        message = " ".join((str(faceResult), str(smileResult), str(int(theta)), str(int(phi)), str(int(realDist))))
                         self.s2.sendall(message)
 
                 # Display the resulting frame
