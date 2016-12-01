@@ -99,7 +99,7 @@ class faceTrack(object):
         cv2.destroyAllWindows() 
      
     def tiltmotor(self,phi):
-        nphi = int(self.prePhi-(phi-90))
+        nphi = int(self.prePhi+(phi-90))
         print nphi
         self.servo_tilt.write(nphi)
         self.prePhi = nphi
@@ -156,7 +156,7 @@ class faceTrack(object):
         #     self.calibrate(float(realDst), float(realWidth))
         with picamera.PiCamera() as camera:
             with picamera.array.PiRGBArray(camera) as stream:
-                camera.resolution = (160, 120)   
+                camera.resolution = (320, 240)   
 
                 while (self.runFlag):
                     camera.capture(stream, 'bgr', use_video_port=True)
@@ -182,7 +182,7 @@ class faceTrack(object):
                     else:
                         print packet
                         print "phi ", phi - 90
-                        print "theta", theta - 90
+                        #print "theta", theta - 90
                         self.tiltmotor(phi)
                         #self.controlcar(theta-90,realDist)
                         self.pancar(theta-90)
