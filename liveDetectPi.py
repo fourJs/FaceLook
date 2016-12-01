@@ -25,7 +25,7 @@ class LiveDetectPi(object):
         
         # self.video_capture = cv2.VideoCapture(0)
         
-        TCP_IP = "192.168.16.56"
+        TCP_IP = "192.168.34.189"
         TCP_PORT = 1324
 
         self.s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
