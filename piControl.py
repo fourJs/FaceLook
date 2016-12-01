@@ -62,13 +62,16 @@ class PiControl(object):
 
     def run(self):
         while True:
-            data = self.connection.recv(16).strip()
-            print >>sys.stderr, 'received "%s"' % data
-            data = data.split(" ")
-            [faceResult, smileResult, theta, phi, realDist] = data[0], data[1], data[2], data[3], data[4]
-            self.pancar(int(theta) - 90)
-            # self.tiltmotor(int(phi))
-  
+            try:
+                data = self.connection.recv(16).strip()
+                print >>sys.stderr, 'received "%s"' % data
+                data = data.split(" ")
+                [faceResult, smileResult, theta, phi, realDist] = data[0], data[1], data[2], data[3], data[4]
+                self.pancar(int(theta) - 90)
+                # self.tiltmotor(int(phi))
+            except Exception as e:
+                print e
+                pass
 
         # Clean up the connection
         self.connection.close()
