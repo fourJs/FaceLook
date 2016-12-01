@@ -23,7 +23,6 @@ class LiveDetectPi(object):
         smilePath = "lib/haarcascade_smile.xml"
         self.smileCascade = cv2.CascadeClassifier(smilePath)
         
-        # self.video_capture = cv2.VideoCapture(0)
         
         TCP_IP = "192.168.34.189"
         TCP_PORT = 1324
@@ -39,6 +38,9 @@ class LiveDetectPi(object):
         print >>sys.stderr, 'connecting to %s port %s' % server_address
         self.s2.connect(server_address)
 
+        self.firstRun = True
+        self.focus = 250 # px, webcam focal distance
+        self.realWidth = 16  # cm, face width
 
     def recvall(self, sock, count):
         buf = b''
@@ -121,63 +123,88 @@ class LiveDetectPi(object):
             return 0
         # return model2.predict(extracted_face.ravel())
 
+
+    def getPredicts(self, frame, x, y, w, h, gray, face):
+        
+        # draw rectangle around face 
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        
+        extracted_face = self.extract_face_features(gray, face) #(0.075, 0.05)
+
+        roi_gray = gray[y:y+h, x:x+w]
+        smileResult = self.predictSmile(roi_gray)
+
+        extracted_face = self.normalize(extracted_face)
+        faceResult = self.recognizeFace(extracted_face)
+
+        print "faceResult, ",  faceResult
+        print "smileResult, ",  smileResult
+
+        return faceResult, smileResult
+
+    def tag(self, frame, faceResult, smileResult, x, y):
+        # annotate main image with a label
+        if faceResult == 1:
+            if smileResult == 1:
+                cv2.putText(frame, "James Smiling",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
+            else:
+                cv2.putText(frame, "James",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
+        else:
+            if smileResult == 1:
+                cv2.putText(frame, "Alien Smiling",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
+            else:
+                cv2.putText(frame, "Alien",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
+
+    def getDistAng(self, x, y, w, h):
+        theta,phi,realDist = 0, 0, 0
+
+        #point on the center of the frame
+        center = (x+int(w/2),y+int(h/2))
+        #vector to middle of the frame from the center of the face in pix
+        v2mid = (center[0]-self.mid[0],center[1]-self.mid[1])
+        #distance to middle of the frame from the center of the face in pix
+        d2mid = sqrt(v2mid[0]**2+v2mid[1]**2)
+        #distance to the focal point
+        d2f = sqrt(self.focus**2+d2mid**2)
+        
+
+        #theta is positive in ccw direction
+        theta = self.rad2deg(np.arctan((float(v2mid[0]))/self.focus))
+        #phi is positive in left direction (right hand rule)
+        phi = -self.rad2deg(np.arctan((float(v2mid[1]))/self.focus))
+        realDist = (self.realWidth*d2f)/w
+
+        return (theta+90.0,phi+90.0,realDist)
+
+
     def run(self):
+        if self.firstRun:
+            height,width,channel = frame.shape
+            self.mid = (int(width/2),int(height/2)) 
+            self.firstRun = False
+
         while True:
             # Capture frame-by-frame
-            # ret, frame = self.video_capture.read()
-
             length = self.recvall(self.conn,16)
             if length != None:
                 stringData = self.recvall(self.conn, int(length))
                 data = np.fromstring(stringData, dtype='uint8')
                 frame = cv2.imdecode(data,1)
 
-
                 # detect faces
                 gray, detected_faces = self.detect_face(frame)
                 print "detected_faces ", detected_faces
 
-                face_index = 0
-                
                 # predict output
                 for face in detected_faces:
                     (x, y, w, h) = face
                     if w > 10:
-                        # draw rectangle around face 
-                        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-                        
-                        extracted_face = self.extract_face_features(gray, face) #(0.075, 0.05)
+                        (theta, phi, realDist) = self.getDistAng(x, y, w, h)
+                        faceResult, smileResult = self.getPredicts(frame, x, y, w, h, gray, face)
+                        self.tag(frame, faceResult, smileResult, x, y)
 
-                        roi_gray = gray[y:y+h, x:x+w]
-                        smileResult = self.predictSmile(roi_gray)
-
-                        extracted_face = self.normalize(extracted_face)
-                        faceResult = self.recognizeFace(extracted_face)
-
-                        print "faceResult, ",  faceResult
-                        print "smileResult, ",  smileResult
-
-                        # draw extracted face in the top right corner
-                        # frame[face_index * 64: (face_index + 1) * 64, -65:-1, :] = cv2.cvtColor(extracted_face * 255, cv2.COLOR_GRAY2RGB)
-                        # frame[face_index * 64: (face_index + 1) * 64, -65:-1, :] = cv2.cvtColor((1 - extracted_face) * 255, cv2.COLOR_GRAY2RGB)
-
-                        self.s2.sendall(str(faceResult) + " " + str(smileResult))
-
-                        # annotate main image with a label
-                        if faceResult == 1:
-                            if smileResult == 1:
-                                cv2.putText(frame, "James Smiling",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
-                            else:
-                                cv2.putText(frame, "James",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
-                        else:
-                            if smileResult == 1:
-                                cv2.putText(frame, "Alien Smiling",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
-                            else:
-                                cv2.putText(frame, "Alien",(x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, 100, 5)
-
-                        # increment counter
-                        face_index += 1
-                            
+                        message = " ".join[str(faceResult), str(smileResult), str(theta), str(phi), str(realDist)]
+                        self.s2.sendall(message)
 
                 # Display the resulting frame
                 cv2.imshow('Video', frame)

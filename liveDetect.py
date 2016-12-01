@@ -116,7 +116,7 @@ while True:
 
             roi_gray = gray[y:y+h, x:x+w]
             smileResult = predictSmile(roi_gray)
-
+                        
             extracted_face = normalize(extracted_face)
             faceResult = recognizeFace(extracted_face)
 
