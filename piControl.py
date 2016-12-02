@@ -6,6 +6,8 @@ import numpy as np
 import struct ## new
 from nanpy import Servo
 import time
+import threading
+import Queue
 
 class PiControl(object):
     """receieve data from pc and contril pi to tilt and pan"""
@@ -15,6 +17,7 @@ class PiControl(object):
         self.servo_r= Servo(5)
         self.servo_l= Servo(9)
         self.prePhi = 90
+        self.q = Queue.Queue()
 
     def initConnection(self):
         # Create a TCP/IP socket
@@ -35,46 +38,57 @@ class PiControl(object):
         print >>sys.stderr, 'connection from', client_address
 
     def pancar(self,theta):
-        if abs(theta)<=2:
-            self.servo_r.write(0)
-            self.servo_l.write(0)
-        elif theta>2:
-            print "theta is larger than 2"
-            self.servo_l.write(98)
-            self.servo_r.write(98)
-            time.sleep(0.05*(abs(theta)-2))
-            self.servo_r.write(0)
-            self.servo_l.write(0)
-        elif theta<-2:
-            print "theta is larger than -2"
-            self.servo_l.write(20)
-            self.servo_r.write(20)
-            time.sleep(0.01*(abs(theta)-2))
-            self.servo_r.write(0)
-            self.servo_l.write(0)
+        while True:
+            while not q.empty():
+                data = q.get()
+                print "pop out from queue: ", data
+                # data = data.split(" ")
+                # [faceResult, smileResult, theta, phi, realDist] = data[0], data[1], data[2], data[3], data[4]
 
-    def tiltmotor(self,phi):
+                # if abs(theta)<=2:
+                #     self.servo_r.write(0)
+                #     self.servo_l.write(0)
+                # elif theta>2:
+                #     print "theta is larger than 2"
+                #     self.servo_l.write(98)
+                #     self.servo_r.write(98)
+                #     time.sleep(0.05*(abs(theta)-2))
+                #     self.servo_r.write(0)
+                #     self.servo_l.write(0)
+                # elif theta<-2:
+                #     print "theta is larger than -2"
+                #     self.servo_l.write(20)
+                #     self.servo_r.write(20)
+                #     time.sleep(0.01*(abs(theta)-2))
+                #     self.servo_r.write(0)
+                #     self.servo_l.write(0)
+
+    def tiltmotor(self, phi):
         nphi = int(self.prePhi-(phi-90))
         print nphi
         self.servo_tilt.write(nphi)
         self.prePhi = nphi
 
 
-    def run(self):
+    def cmdReceiver(self):
         while True:
             try:
                 data = self.connection.recv(16).strip()
                 print >>sys.stderr, 'received "%s"' % data
-                data = data.split(" ")
-                [faceResult, smileResult, theta, phi, realDist] = data[0], data[1], data[2], data[3], data[4]
-                self.pancar(int(theta) - 90)
-                # self.tiltmotor(int(phi))
+                q.put(data)
+
             except Exception as e:
                 print e
                 pass
 
         # Clean up the connection
         self.connection.close()
+
+    def run(self):
+        t1 = threading.Thread(target = self.cmdReceiver)
+        t1.start()
+        t2 = threading.Thread(target = self.pancar, args=(-90))
+        t2.start()
 
 
 if __name__ == '__main__':
