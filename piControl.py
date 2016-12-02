@@ -42,27 +42,30 @@ class PiControl(object):
             while not self.q.empty():
                 data = self.q.get()
                 print "pop out from queue: ", data
-                # data = data.split(" ")
-                # [faceResult, smileResult, theta, phi, realDist] = data[0], data[1], data[2], data[3], data[4]
+                try:
+                    data = data.split(" ")
+                    [faceResult, smileResult, theta, phi, realDist] = data[0], data[1], data[2], data[3], data[4]
 
-                # if abs(theta)<=2:
-                #     self.servo_r.write(0)
-                #     self.servo_l.write(0)
-                # elif theta>2:
-                #     print "theta is larger than 2"
-                #     self.servo_l.write(98)
-                #     self.servo_r.write(98)
-                #     time.sleep(0.05*(abs(theta)-2))
-                #     self.servo_r.write(0)
-                #     self.servo_l.write(0)
-                # elif theta<-2:
-                #     print "theta is larger than -2"
-                #     self.servo_l.write(20)
-                #     self.servo_r.write(20)
-                #     time.sleep(0.01*(abs(theta)-2))
-                #     self.servo_r.write(0)
-                #     self.servo_l.write(0)
-
+                    if abs(theta)<=2:
+                        self.servo_r.write(0)
+                        self.servo_l.write(0)
+                    elif theta>2:
+                        print "theta is larger than 2"
+                        self.servo_l.write(98)
+                        self.servo_r.write(98)
+                        time.sleep(0.05*(abs(theta)-2))
+                        self.servo_r.write(0)
+                        self.servo_l.write(0)
+                    elif theta<-2:
+                        print "theta is larger than -2"
+                        self.servo_l.write(20)
+                        self.servo_r.write(20)
+                        time.sleep(0.01*(abs(theta)-2))
+                        self.servo_r.write(0)
+                        self.servo_l.write(0)
+                except Exception as e:
+                    print e
+                    
     def tiltmotor(self, phi):
         nphi = int(self.prePhi-(phi-90))
         print nphi
