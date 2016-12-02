@@ -66,13 +66,14 @@ class PiControl(object):
                         # time.sleep(0.01*(abs(theta)-2))
                         self.servo_r.write(0)
                         self.servo_l.write(0)
+                    # while not self.q.empty():
+                    #     waste = self.q.get() 
                     self.q.task_done()
                 except Exception as e:
                     print e
                     self.q.task_done()
                 # self.q.task_done()
-            while not self.q.empty():
-                waste = self.q.get()    
+             
 
 
     def tiltmotor(self, phi):
