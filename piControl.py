@@ -71,6 +71,8 @@ class PiControl(object):
                     print e
                     self.q.task_done()
                 # self.q.task_done()
+            while not self.q.empty():
+                waste = self.q.get()    
 
 
     def tiltmotor(self, phi):
