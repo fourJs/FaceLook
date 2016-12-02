@@ -46,6 +46,8 @@ class PiControl(object):
                 try:
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
+                    
+                    theta = theta - 90
 
                     if abs(theta)<=2:
                         self.servo_r.write(0)
