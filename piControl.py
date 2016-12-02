@@ -39,8 +39,8 @@ class PiControl(object):
 
     def pancar(self):
         while True:
-            while not q.empty():
-                data = q.get()
+            while not self.q.empty():
+                data = self.q.get()
                 print "pop out from queue: ", data
                 # data = data.split(" ")
                 # [faceResult, smileResult, theta, phi, realDist] = data[0], data[1], data[2], data[3], data[4]
@@ -75,7 +75,7 @@ class PiControl(object):
             try:
                 data = self.connection.recv(16).strip()
                 print >>sys.stderr, 'received "%s"' % data
-                q.put(data)
+                self.q.put(data)
 
             except Exception as e:
                 print e
