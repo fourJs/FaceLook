@@ -43,32 +43,32 @@ class PiControl(object):
             while not self.q.empty():
                 data = self.q.get()
                 print "pop out from queue: ", data
-                # try:
-                #     data = data.split(" ")
-                #     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
+                try:
+                    data = data.split(" ")
+                    [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
 
-                #     if abs(theta)<=2:
-                #         self.servo_r.write(0)
-                #         self.servo_l.write(0)
-                #     elif theta>2:
-                #         print "theta is larger than 2"
-                #         self.servo_l.write(98)
-                #         self.servo_r.write(98)
-                #         time.sleep(0.05*(abs(theta)-2))
-                #         self.servo_r.write(0)
-                #         self.servo_l.write(0)
-                #     elif theta<-2:
-                #         print "theta is larger than -2"
-                #         self.servo_l.write(20)
-                #         self.servo_r.write(20)
-                #         time.sleep(0.01*(abs(theta)-2))
-                #         self.servo_r.write(0)
-                #         self.servo_l.write(0)
-                    # self.q.task_done()
-                # except Exception as e:
-                    # print e
-                    # self.q.task_done()
-                self.q.task_done()
+                    if abs(theta)<=2:
+                        self.servo_r.write(0)
+                        self.servo_l.write(0)
+                    elif theta>2:
+                        print "theta is larger than 2"
+                        self.servo_l.write(98)
+                        self.servo_r.write(98)
+                        time.sleep(0.05*(abs(theta)-2))
+                        self.servo_r.write(0)
+                        self.servo_l.write(0)
+                    elif theta<-2:
+                        print "theta is larger than -2"
+                        self.servo_l.write(20)
+                        self.servo_r.write(20)
+                        time.sleep(0.01*(abs(theta)-2))
+                        self.servo_r.write(0)
+                        self.servo_l.write(0)
+                    self.q.task_done()
+                except Exception as e:
+                    print e
+                    self.q.task_done()
+                # self.q.task_done()
 
 
     def tiltmotor(self, phi):
