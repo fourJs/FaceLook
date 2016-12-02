@@ -63,9 +63,11 @@ class PiControl(object):
                         time.sleep(0.01*(abs(theta)-2))
                         self.servo_r.write(0)
                         self.servo_l.write(0)
+                    self.q.task_done()
                 except Exception as e:
                     print e
-            self.q.task_done()
+                    self.q.task_done()
+                    
 
     def tiltmotor(self, phi):
         nphi = int(self.prePhi-(phi-90))
