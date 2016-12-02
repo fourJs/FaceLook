@@ -6,11 +6,11 @@ from picamera.array import PiRGBArray
 import picamera
 import sys
 
-TCP_IP = "192.168.33.182"
+pc_IP = "192.168.34.189"
 TCP_PORT = 1324
 
 sock = socket.socket()
-sock.connect((TCP_IP, TCP_PORT))
+sock.connect((pc_IP, TCP_PORT))
 # data = ""
 
 with picamera.PiCamera() as camera:
