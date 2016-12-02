@@ -17,7 +17,7 @@ class PiControl(object):
         self.servo_r= Servo(5)
         self.servo_l= Servo(9)
         self.prePhi = 90
-        self.q = Queue.Queue()
+        self.q = Queue.LifoQueue()
 
     def initConnection(self):
         # Create a TCP/IP socket
@@ -65,6 +65,7 @@ class PiControl(object):
                         self.servo_l.write(0)
                 except Exception as e:
                     print e
+            self.q.task_done()
 
     def tiltmotor(self, phi):
         nphi = int(self.prePhi-(phi-90))
@@ -79,7 +80,7 @@ class PiControl(object):
                 data = self.connection.recv(16).strip()
                 print >>sys.stderr, 'received "%s"' % data
                 self.q.put(data)
-
+                self.q.join()
             except Exception as e:
                 print e
                 pass
