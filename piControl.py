@@ -44,7 +44,7 @@ class PiControl(object):
                 print "pop out from queue: ", data
                 try:
                     data = data.split(" ")
-                    [faceResult, smileResult, theta, phi, realDist] = data[0], data[1], data[2], data[3], data[4]
+                    [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
 
                     if abs(theta)<=2:
                         self.servo_r.write(0)
@@ -65,7 +65,7 @@ class PiControl(object):
                         self.servo_l.write(0)
                 except Exception as e:
                     print e
-                    
+
     def tiltmotor(self, phi):
         nphi = int(self.prePhi-(phi-90))
         print nphi
