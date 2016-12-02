@@ -17,14 +17,15 @@ class PiControl(object):
         self.servo_r= Servo(5)
         self.servo_l= Servo(9)
         self.prePhi = 90
-        self.q = Queue.LifoQueue()
+        # self.q = Queue.LifoQueue()
+        self.q = Queue.Queue()
 
     def initConnection(self):
         # Create a TCP/IP socket
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         # Bind the socket to the port
-        pi_address = ('192.168.33.182', 5001)
+        pi_address = ('192.168.33.182', 5002)
         print >>sys.stderr, 'starting up on %s port %s' % pi_address
         self.sock.bind(pi_address)
 
@@ -68,7 +69,7 @@ class PiControl(object):
                     # print e
                     # self.q.task_done()
                 self.q.task_done()
-                    
+
 
     def tiltmotor(self, phi):
         nphi = int(self.prePhi-(phi-90))
