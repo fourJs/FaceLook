@@ -37,7 +37,7 @@ class PiControl(object):
 
         print >>sys.stderr, 'connection from', client_address
 
-    def pancar(self,theta):
+    def pancar(self):
         while True:
             while not q.empty():
                 data = q.get()
@@ -87,7 +87,7 @@ class PiControl(object):
     def run(self):
         t1 = threading.Thread(target = self.cmdReceiver)
         t1.start()
-        t2 = threading.Thread(target = self.pancar, args=(-90))
+        t2 = threading.Thread(target = self.pancar)
         t2.start()
 
 
