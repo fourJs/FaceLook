@@ -56,14 +56,14 @@ class PiControl(object):
                         print "theta is larger than 2"
                         self.servo_l.write(98)
                         self.servo_r.write(98)
-                        time.sleep(0.05*(abs(theta)-2))
+                        # time.sleep(0.05*(abs(theta)-2))
                         self.servo_r.write(0)
                         self.servo_l.write(0)
                     elif theta<-2:
                         print "theta is larger than -2"
                         self.servo_l.write(20)
                         self.servo_r.write(20)
-                        time.sleep(0.01*(abs(theta)-2))
+                        # time.sleep(0.01*(abs(theta)-2))
                         self.servo_r.write(0)
                         self.servo_l.write(0)
                     self.q.task_done()
