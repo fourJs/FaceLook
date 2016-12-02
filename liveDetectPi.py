@@ -24,19 +24,19 @@ class LiveDetectPi(object):
         smilePath = "lib/haarcascade_smile.xml"
         self.smileCascade = cv2.CascadeClassifier(smilePath)
         
-        TCP_IP = "192.168.34.189"
+        pc_IP = "192.168.34.189"
         TCP_PORT = 1324
 
         self.s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.s1.bind((TCP_IP, TCP_PORT))
+        self.s1.bind((pc_IP, TCP_PORT))
         self.s1.listen(True)
         self.conn, addr = self.s1.accept()
 
         self.s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Connect the socket to the port where the server is listening
-        server_address = ('192.168.33.182', 5000)
-        print >>sys.stderr, 'connecting to %s port %s' % server_address
-        self.s2.connect(server_address)
+        pi_address = ('192.168.33.182', 5000)
+        print >>sys.stderr, 'connecting to %s port %s' % pi_address
+        self.s2.connect(pi_address)
 
         self.firstRun = True
         self.focus = 250 # px, webcam focal distance
