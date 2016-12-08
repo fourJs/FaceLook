@@ -24,8 +24,8 @@ print text
 
 
 
-# from os import system
-# system(text)
+from os import system
+system(text)
 
 
 
