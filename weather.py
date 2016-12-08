@@ -27,10 +27,9 @@ pressure = w.get_pressure()
 # print pressure["press"]
 
 text = "say hello my majesty, today the weather is " + str(summary) + ", the wind speed is " + str(wind["speed"]) + ", the humidity is " + str(humidity) + ", the temperature is around " + str(temperature["temp"]) + " and the pressure is " + str(pressure["press"])
-print text
-
-from os import system
-system(text)
+# print text
+# from os import system
+# system(text)
 
 
 
