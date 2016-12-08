@@ -103,7 +103,6 @@ class DetectML(object):
 ????
 不应该这样normalize，而应该直接除以255来normalize？？？？？
 
-
     def normalize(self, arr):
         """
         Linear normalization
