@@ -42,5 +42,5 @@
 
 
 
-import os
-os.system("espeak 'The quick brown fox'")
+# import os
+# os.system("espeak 'The quick brown fox'")

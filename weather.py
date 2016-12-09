@@ -1,4 +1,5 @@
 import pyowm
+from os import system
 
 owm = pyowm.OWM("1304584f22b294d48aae0bfff0fe655f")  # You MUST provide a valid API key
 
@@ -20,11 +21,8 @@ humidity = w.get_humidity()              # 87
 temperature = w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
 pressure = w.get_pressure()
 text = "say hello my majesty, today the weather is " + str(summary) + ", the wind speed is " + str(wind["speed"]) + ", the humidity is " + str(humidity) + ", the temperature is around " + str(temperature["temp"]) + " and the pressure is " + str(pressure["press"])
-print text
+# print text
 
-
-
-from os import system
 system(text)
 
 
