@@ -6,6 +6,7 @@
 from nanpy import ArduinoApi
 from nanpy import SerialManager
 import time
+from nanpy import Servo
 
 connection = SerialManager(device='/dev/ttyACM0')
 
@@ -32,6 +33,8 @@ a.digitalWrite(11, a.LOW)
 a.analogWrite(5, 0)
 a.analogWrite(6, 0)
 
+servo_tilt = Servo(3)
+servo_tilt.write(90)
 ##connection = np.SerialManager(device='/dev/ttyACM1')
 ##a = np.ArduinoApi(connection=connection)
 ##a.pinMode(13, a.OUTPUT)
