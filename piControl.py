@@ -113,8 +113,8 @@ class PiControl(object):
     def run(self):
         t1 = threading.Thread(target = self.cmdReceiver)
         t1.start()
-        t2 = threading.Thread(target = self.pancar)
-        t2.start()
+        # t2 = threading.Thread(target = self.pancar)
+        # t2.start()
 
 
 if __name__ == '__main__':
