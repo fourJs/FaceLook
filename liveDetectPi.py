@@ -39,7 +39,7 @@ class LiveDetectPi(object):
         self.s2.connect(pi_address)
 
         self.firstRun = True
-        self.focus = 600 # px, webcam focal distance
+        self.focus = 1000 # px, webcam focal distance
         self.realWidth = 16  # cm, face width
 
     def recvall(self, sock, count):
