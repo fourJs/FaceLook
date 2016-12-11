@@ -58,7 +58,7 @@ class PiControl(object):
  
                     self.tiltmotor(phi)                   
                     self.panCar(theta)
-                    
+
                     # while not self.q.empty():
                     #     waste = self.q.get() 
                     self.q.task_done()
@@ -93,7 +93,7 @@ class PiControl(object):
             self.a.analogWrite(6,110)
 
     def tiltmotor(self, phi):
-        nphi = int(self.prePhi-(phi-90))
+        nphi = int(self.prePhi+(phi-90))
         print nphi
         self.servo_tilt.write(nphi)
         self.prePhi = nphi
