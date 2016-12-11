@@ -8,6 +8,8 @@ from nanpy import Servo
 import time
 import threading
 import Queue
+from nanpy import ArduinoApi
+from nanpy import SerialManager
 
 class PiControl(object):
     """receieve data from pc and contril pi to tilt and pan"""
