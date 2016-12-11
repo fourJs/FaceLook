@@ -22,12 +22,12 @@ class PiControl(object):
         self.prePhi = 90
         # self.q = Queue.LifoQueue()
         self.q = Queue.Queue()
-        self.a.pinMode(8, a.OUTPUT)
-        self.a.pinMode(9, a.OUTPUT)
-        self.a.pinMode(10, a.OUTPUT)
-        self.a.pinMode(11, a.OUTPUT)
-        self.a.pinMode(5, a.OUTPUT)
-        self.a.pinMode(6, a.OUTPUT)
+        self.a.pinMode(8, self.a.OUTPUT)
+        self.a.pinMode(9, self.a.OUTPUT)
+        self.a.pinMode(10, self.a.OUTPUT)
+        self.a.pinMode(11, self.a.OUTPUT)
+        self.a.pinMode(5, self.a.OUTPUT)
+        self.a.pinMode(6, self.a.OUTPUT)
 
     def initConnection(self):
         # Create a TCP/IP socket
@@ -63,19 +63,19 @@ class PiControl(object):
                         self.a.analogWrite(6,0)
                     elif theta>2:
                         print "theta is larger than 2"
-                        self.a.digitalWrite(8, a.HIGH)
-                        self.a.digitalWrite(9, a.LOW)
-                        self.a.digitalWrite(10, a.HIGH)
-                        self.a.digitalWrite(11, a.LOW)
+                        self.a.digitalWrite(8, self.a.HIGH)
+                        self.a.digitalWrite(9, self.a.LOW)
+                        self.a.digitalWrite(10, self.a.HIGH)
+                        self.a.digitalWrite(11, self.a.LOW)
                         self.a.analogWrite(5,120)
                         self.a.analogWrite(6,120)
 
                     elif theta<-2:
                         print "theta is larger than -2"
-                        self.a.digitalWrite(8, a.LOW)
-                        self.a.digitalWrite(9, a.HIGH)
-                        self.a.digitalWrite(10, a.LOW)
-                        self.a.digitalWrite(11, a.HIGH)
+                        self.a.digitalWrite(8, self.a.LOW)
+                        self.a.digitalWrite(9, self.a.HIGH)
+                        self.a.digitalWrite(10, self.a.LOW)
+                        self.a.digitalWrite(11, self.a.HIGH)
                         self.a.analogWrite(5,120)
                         self.a.analogWrite(6,120)
 
