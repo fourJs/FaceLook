@@ -94,10 +94,11 @@ class PiControl(object):
 
     def tiltmotor(self, phi):
         nPhi = int(self.prePhi - (phi-90))
-        print "nPhi: ", nPhi
-        if abs(nPhi-90)>30:
+        if abs(nPhi-90)>50:
+            print "too big nPhi: ", nPhi
             print "pass"
         else:
+            print "inside nPhi: ", nPhi
             self.servo_tilt.write(nPhi)
             self.prePhi = nPhi
 
