@@ -15,9 +15,9 @@ class PiControl(object):
     """receieve data from pc and contril pi to tilt and pan"""
     def __init__(self):
         self.initConnection()
-        self.connection = SerialManager(device='/dev/ttyACM0')
+        connection = SerialManager(device='/dev/ttyACM0')
 
-        self.a = ArduinoApi(connection = self.connection)
+        self.a = ArduinoApi(connection = connection)
         self.servo_tilt = Servo(3)
         self.prePhi = 90
         # self.q = Queue.LifoQueue()
