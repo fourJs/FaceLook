@@ -24,10 +24,10 @@ a.digitalWrite(9, a.LOW)
 a.digitalWrite(10, a.HIGH)
 a.digitalWrite(11, a.LOW)
 
-for move in range(100,255,4):
-    a.analogWrite(5, move)
-    time.sleep(0.5)
-    print move
+# for move in range(100,255,4):
+#     a.analogWrite(5, move)
+#     time.sleep(0.5)
+#     print move
 
 a.analogWrite(5, 0)
 ##connection = np.SerialManager(device='/dev/ttyACM1')
