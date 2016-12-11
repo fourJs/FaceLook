@@ -13,12 +13,19 @@ class PiControl(object):
     """receieve data from pc and contril pi to tilt and pan"""
     def __init__(self):
         self.initConnection()
+        self.connection = SerialManager(device='/dev/ttyACM0')
+
+        self.a = ArduinoApi(connection = connection)
         self.servo_tilt = Servo(11)
-        self.servo_r= Servo(5)
-        self.servo_l= Servo(9)
         self.prePhi = 90
         # self.q = Queue.LifoQueue()
         self.q = Queue.Queue()
+        self.a.pinMode(8, a.OUTPUT)
+        self.a.pinMode(9, a.OUTPUT)
+        self.a.pinMode(10, a.OUTPUT)
+        self.a.pinMode(11, a.OUTPUT)
+        self.a.pinMode(5, a.OUTPUT)
+        self.a.pinMode(6, a.OUTPUT)
 
     def initConnection(self):
         # Create a TCP/IP socket
@@ -50,22 +57,26 @@ class PiControl(object):
                     theta = theta - 90
 
                     if abs(theta)<=2:
-                        self.servo_r.write(0)
-                        self.servo_l.write(0)
+                        self.a.analogWrite(5,0)
+                        self.a.analogWrite(6,0)
                     elif theta>2:
                         print "theta is larger than 2"
-                        self.servo_l.write(98)
-                        self.servo_r.write(98)
-                        # time.sleep(0.05*(abs(theta)-2))
-                        self.servo_r.write(0)
-                        self.servo_l.write(0)
+                        self.a.digitalWrite(8, a.HIGH)
+                        self.a.digitalWrite(9, a.LOW)
+                        self.a.digitalWrite(10, a.HIGH)
+                        self.a.digitalWrite(11, a.LOW)
+                        self.a.analogWrite(5,120)
+                        self.a.analogWrite(6,120)
+
                     elif theta<-2:
                         print "theta is larger than -2"
-                        self.servo_l.write(20)
-                        self.servo_r.write(20)
-                        # time.sleep(0.01*(abs(theta)-2))
-                        self.servo_r.write(0)
-                        self.servo_l.write(0)
+                        self.a.digitalWrite(8, a.LOW)
+                        self.a.digitalWrite(9, a.HIGH)
+                        self.a.digitalWrite(10, a.LOW)
+                        self.a.digitalWrite(11, a.HIGH)
+                        self.a.analogWrite(5,120)
+                        self.a.analogWrite(6,120)
+
                     # while not self.q.empty():
                     #     waste = self.q.get() 
                     self.q.task_done()
