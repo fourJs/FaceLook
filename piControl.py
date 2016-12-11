@@ -93,10 +93,13 @@ class PiControl(object):
             self.a.analogWrite(6,110)
 
     def tiltmotor(self, phi):
-        nPhi = int(self.prePhi+(phi-90))
-        print nPhi
-        self.servo_tilt.write(nPhi)
-        self.prePhi = nPhi
+        nPhi = int(self.prePhi - (phi-90))
+        print "nPhi: ", nPhi
+        if abs(nPhi-90)>30:
+            print "pass"
+        else:
+            self.servo_tilt.write(nPhi)
+            self.prePhi = nPhi
 
 
     def cmdReceiver(self):
