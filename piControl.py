@@ -16,7 +16,7 @@ class PiControl(object):
         self.connection = SerialManager(device='/dev/ttyACM0')
 
         self.a = ArduinoApi(connection = connection)
-        self.servo_tilt = Servo(11)
+        self.servo_tilt = Servo(3)
         self.prePhi = 90
         # self.q = Queue.LifoQueue()
         self.q = Queue.Queue()
