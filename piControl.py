@@ -65,19 +65,19 @@ class PiControl(object):
                         print "theta is larger than 2"
                         self.a.digitalWrite(8, self.a.HIGH)
                         self.a.digitalWrite(9, self.a.LOW)
-                        self.a.digitalWrite(10, self.a.HIGH)
-                        self.a.digitalWrite(11, self.a.LOW)
-                        self.a.analogWrite(5,120)
-                        self.a.analogWrite(6,120)
+                        self.a.digitalWrite(10, self.a.LOW)
+                        self.a.digitalWrite(11, self.a.HIGH)
+                        self.a.analogWrite(5,110)
+                        self.a.analogWrite(6,110)
 
                     elif theta<-2:
                         print "theta is larger than -2"
                         self.a.digitalWrite(8, self.a.LOW)
                         self.a.digitalWrite(9, self.a.HIGH)
-                        self.a.digitalWrite(10, self.a.LOW)
-                        self.a.digitalWrite(11, self.a.HIGH)
-                        self.a.analogWrite(5,120)
-                        self.a.analogWrite(6,120)
+                        self.a.digitalWrite(10, self.a.HIGH)
+                        self.a.digitalWrite(11, self.a.LOW)
+                        self.a.analogWrite(5,110)
+                        self.a.analogWrite(6,110)
 
                     # while not self.q.empty():
                     #     waste = self.q.get() 
