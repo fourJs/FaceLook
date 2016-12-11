@@ -208,7 +208,9 @@ class LiveDetectPi(object):
 
                         message = " ".join((str(faceResult), str(smileResult), str(int(theta)), str(int(phi)), str(int(realDist))))
                         self.s2.sendall(message)
-
+                    else:
+                        message = " ".join(('0', '0', '90', '90', '0'))
+                        self.s2.sendall(message)
                 # Display the resulting frame
                 cv2.imshow('Video', frame)
 
