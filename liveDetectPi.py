@@ -116,7 +116,7 @@ class LiveDetectPi(object):
             minSize=(30, 30),
             flags=cv2.cv.CV_HAAR_SCALE_IMAGE
             )
-        print "found smiles: ", len(smile)
+        # print "found smiles: ", len(smile)
         if len(smile) > 0:
             return 1
         else:
@@ -137,8 +137,8 @@ class LiveDetectPi(object):
         extracted_face = self.normalize(extracted_face)
         faceResult = self.recognizeFace(extracted_face)
 
-        print "faceResult, ",  faceResult
-        print "smileResult, ",  smileResult
+        # print "faceResult, ",  faceResult
+        # print "smileResult, ",  smileResult
 
         return faceResult, smileResult
 
@@ -196,9 +196,13 @@ class LiveDetectPi(object):
                 
                 # detect faces
                 gray, detected_faces = self.detect_face(frame)
-                print "detected_faces ", detected_faces
+                # print "detected_faces ", detected_faces
 
                 # predict output
+                if len(detected_faces) <= 0:
+                    print "sending no face 1"
+                    message = " ".join(('0', '0', '90', '90', '0'))
+                    self.s2.sendall(message)                    
                 for face in detected_faces:
                     (x, y, w, h) = face
                     if w > 10:
@@ -209,6 +213,7 @@ class LiveDetectPi(object):
                         message = " ".join((str(faceResult), str(smileResult), str(int(theta)), str(int(phi)), str(int(realDist))))
                         self.s2.sendall(message)
                     else:
+                        print "sending no face 2"
                         message = " ".join(('0', '0', '90', '90', '0'))
                         self.s2.sendall(message)
                 # Display the resulting frame
