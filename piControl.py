@@ -58,10 +58,10 @@ class PiControl(object):
                     
                     theta = theta - 90
 
-                    if abs(theta)<=5:
+                    if abs(theta)<=15:
                         self.a.analogWrite(5,0)
                         self.a.analogWrite(6,0)
-                    elif theta>5:
+                    elif theta>15:
                         print "theta is larger than 2"
                         self.a.digitalWrite(8, self.a.HIGH)
                         self.a.digitalWrite(9, self.a.LOW)
@@ -70,7 +70,7 @@ class PiControl(object):
                         self.a.analogWrite(5,110)
                         self.a.analogWrite(6,110)
 
-                    elif theta<-5:
+                    elif theta<-15:
                         print "theta is larger than -2"
                         self.a.digitalWrite(8, self.a.LOW)
                         self.a.digitalWrite(9, self.a.HIGH)
