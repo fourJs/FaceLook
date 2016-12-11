@@ -30,6 +30,8 @@ a.digitalWrite(11, a.LOW)
 #     print move
 
 a.analogWrite(5, 0)
+a.analogWrite(6, 0)
+
 ##connection = np.SerialManager(device='/dev/ttyACM1')
 ##a = np.ArduinoApi(connection=connection)
 ##a.pinMode(13, a.OUTPUT)
