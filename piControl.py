@@ -71,10 +71,10 @@ class PiControl(object):
     def panCar(self, theta):
         theta = theta - 90
 
-        if abs(theta)<=10:
+        if abs(theta)<=2:
             self.a.analogWrite(5,0)
             self.a.analogWrite(6,0)
-        elif theta>10:
+        elif theta>2:
             print "theta is larger than 2"
             self.a.digitalWrite(8, self.a.HIGH)
             self.a.digitalWrite(9, self.a.LOW)
@@ -83,7 +83,7 @@ class PiControl(object):
             self.a.analogWrite(5,110)
             self.a.analogWrite(6,110)
 
-        elif theta<-10:
+        elif theta<-2:
             print "theta is larger than -2"
             self.a.digitalWrite(8, self.a.LOW)
             self.a.digitalWrite(9, self.a.HIGH)
@@ -94,7 +94,10 @@ class PiControl(object):
 
     def tiltmotor(self, phi):
         nPhi = int(self.prePhi + (phi-90))
-        if abs(nPhi-90)>50:
+
+        if abs(phi-90) < 7:
+            pass
+        elif abs(nPhi-90)>50:
             print "too big nPhi: ", nPhi
             print "pass"
         else:
