@@ -47,7 +47,7 @@ class PiControl(object):
 
         print >>sys.stderr, 'connection from', client_address
 
-    def pancar(self):
+    def control(self):
         while True:
             while not self.q.empty():
                 data = self.q.get()
@@ -55,30 +55,10 @@ class PiControl(object):
                 try:
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
+ 
+                    self.tiltmotor(phi)                   
+                    self.panCar(theta)
                     
-                    theta = theta - 90
-
-                    if abs(theta)<=15:
-                        self.a.analogWrite(5,0)
-                        self.a.analogWrite(6,0)
-                    elif theta>15:
-                        print "theta is larger than 2"
-                        self.a.digitalWrite(8, self.a.HIGH)
-                        self.a.digitalWrite(9, self.a.LOW)
-                        self.a.digitalWrite(10, self.a.LOW)
-                        self.a.digitalWrite(11, self.a.HIGH)
-                        self.a.analogWrite(5,110)
-                        self.a.analogWrite(6,110)
-
-                    elif theta<-15:
-                        print "theta is larger than -2"
-                        self.a.digitalWrite(8, self.a.LOW)
-                        self.a.digitalWrite(9, self.a.HIGH)
-                        self.a.digitalWrite(10, self.a.HIGH)
-                        self.a.digitalWrite(11, self.a.LOW)
-                        self.a.analogWrite(5,110)
-                        self.a.analogWrite(6,110)
-
                     # while not self.q.empty():
                     #     waste = self.q.get() 
                     self.q.task_done()
@@ -88,6 +68,29 @@ class PiControl(object):
                 # self.q.task_done()
              
 
+    def panCar(self, theta):
+        theta = theta - 90
+
+        if abs(theta)<=10:
+            self.a.analogWrite(5,0)
+            self.a.analogWrite(6,0)
+        elif theta>10:
+            print "theta is larger than 2"
+            self.a.digitalWrite(8, self.a.HIGH)
+            self.a.digitalWrite(9, self.a.LOW)
+            self.a.digitalWrite(10, self.a.LOW)
+            self.a.digitalWrite(11, self.a.HIGH)
+            self.a.analogWrite(5,110)
+            self.a.analogWrite(6,110)
+
+        elif theta<-10:
+            print "theta is larger than -2"
+            self.a.digitalWrite(8, self.a.LOW)
+            self.a.digitalWrite(9, self.a.HIGH)
+            self.a.digitalWrite(10, self.a.HIGH)
+            self.a.digitalWrite(11, self.a.LOW)
+            self.a.analogWrite(5,110)
+            self.a.analogWrite(6,110)
 
     def tiltmotor(self, phi):
         nphi = int(self.prePhi-(phi-90))
@@ -113,9 +116,8 @@ class PiControl(object):
     def run(self):
         t1 = threading.Thread(target = self.cmdReceiver)
         t1.start()
-        t2 = threading.Thread(target = self.pancar)
+        t2 = threading.Thread(target = self.control)
         t2.start()
-
 
 if __name__ == '__main__':
     PiControl().run()
