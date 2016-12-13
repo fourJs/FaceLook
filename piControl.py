@@ -115,8 +115,8 @@ class PiControl(object):
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
                     
-                    self.tiltmotor(phi)                   
-                    self.panCar(theta)
+                    # self.tiltmotor(phi)                   
+                    # self.panCar(theta)
 
                     if faceResult == 0:
                         system("go away! alien")
