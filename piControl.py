@@ -50,22 +50,22 @@ class PiControl(object):
 
         print >>sys.stderr, 'connection from', client_address
 
-    # def getWeather(self):
-    #     owm = pyowm.OWM("1304584f22b294d48aae0bfff0fe655f")  # You MUST provide a valid API key
+    def getWeather(self):
+        owm = pyowm.OWM("1304584f22b294d48aae0bfff0fe655f")  # You MUST provide a valid API key
 
-    #     # Search for current weather in Needham, MA
-    #     observation = owm.weather_at_place('Needham,MA')
-    #     w = observation.get_weather()
-    #     # <Weather - reference time=2013-12-18 09:20, status=Clouds>
+        # Search for current weather in Needham, MA
+        observation = owm.weather_at_place('Needham,MA')
+        w = observation.get_weather()
+        # <Weather - reference time=2013-12-18 09:20, status=Clouds>
 
-    #     # Weather details
-    #     summary = w.get_detailed_status()
-    #     wind = w.get_wind()                  # {'speed': 4.6, 'deg': 330}
-    #     humidity = w.get_humidity()              # 87
-    #     temperature = w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
-    #     pressure = w.get_pressure()
-    #     text = "say hello my majesty, today the weather is " + str(summary) + ", the wind speed is " + str(wind["speed"]) + ", the humidity is " + str(humidity) + ", the temperature is around " + str(temperature["temp"]) + " and the pressure is " + str(pressure["press"])
-    #     return text
+        # Weather details
+        summary = w.get_detailed_status()
+        wind = w.get_wind()                  # {'speed': 4.6, 'deg': 330}
+        humidity = w.get_humidity()              # 87
+        temperature = w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
+        pressure = w.get_pressure()
+        text = "say hello my majesty, today the weather is " + str(summary) + ", the wind speed is " + str(wind["speed"]) + ", the humidity is " + str(humidity) + ", the temperature is around " + str(temperature["temp"]) + " and the pressure is " + str(pressure["press"])
+        return text
 
              
 
@@ -115,20 +115,20 @@ class PiControl(object):
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
                     
-                    self.tiltmotor(phi)                   
-                    self.panCar(theta)
+                    # self.tiltmotor(phi)                   
+                    # self.panCar(theta)
 
-                    # if faceResult == 0:
-                    #     system("go away! alien")
-                    #     if smileResult == 1:
-                    #         system("do not smile! alien")
-                    # else:
-                    #     self.tiltmotor(phi)                   
-                    #     self.panCar(theta)
-                    #     if smileResult == 1:
-                    #         system(self.getWeather())
-                    #     else:
-                    #         system("Good to see you! my man")
+                    if faceResult == 0:
+                        system("go away! alien")
+                        if smileResult == 1:
+                            system("do not smile! alien")
+                    else:
+                        self.tiltmotor(phi)                   
+                        self.panCar(theta)
+                        if smileResult == 1:
+                            system(self.getWeather())
+                        else:
+                            system("Good to see you! my man")
 
                     # while not self.q.empty():
                     #     waste = self.q.get() 
