@@ -122,10 +122,9 @@ class PiControl(object):
                 smileData = []
                 while len(faceData) < 5:
                     print "get data from voice qqqq"
+                    
                     try:
                         data = self.voiceQ.get()
-                        if self.voiceQ.empty():
-                            break
                     except Exception as e:
                         print "cannot get data"
                         break
