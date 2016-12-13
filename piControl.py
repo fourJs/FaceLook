@@ -25,6 +25,9 @@ class PiControl(object):
         self.prePhi = 90
         # self.q = Queue.LifoQueue()
         self.q = Queue.Queue()
+
+        self.voiceQ = Queue.LifoQueue()
+
         self.a.pinMode(8, self.a.OUTPUT)
         self.a.pinMode(9, self.a.OUTPUT)
         self.a.pinMode(10, self.a.OUTPUT)
@@ -106,6 +109,26 @@ class PiControl(object):
             self.servo_tilt.write(nPhi)
             self.prePhi = nPhi
 
+    def speak(self):
+        data = self.voiceQ.get()
+        print "voice queue: ", data        
+        if data == "00":
+            # print "alien"
+            system("say go away! alien")
+        elif data == "01":
+            # print "alien smiling"
+            system("say do not smile! alien")
+        # self.tiltmotor(phi)                   
+        # self.panCar(theta)
+        elif data == "10":
+            # print "James smiling"
+            system(self.getWeather())
+        elif data = "11":
+            # print "James"
+            system("say good to see you! my man")
+        else:
+            pass
+
     def control(self):
         while True:
             while not self.q.empty():
@@ -115,27 +138,15 @@ class PiControl(object):
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
                     
+
                     self.tiltmotor(phi)                   
                     self.panCar(theta)
 
-                    if faceResult == 0:
-                        print "alien"
-                        # system("say go away! alien")
-                        if smileResult == 1:
-                            print "alien smiling"
-                            # system("say do not smile! alien")
-                    else:
-                        # self.tiltmotor(phi)                   
-                        # self.panCar(theta)
-                        if smileResult == 1:
-                            print "James smiling"
-                            # system(self.getWeather())
-                        else:
-                            print "James"
-                            # system("say good to see you! my man")
+                    self.voiceQ.put(str(faceResult) + str(smileResult))
+                    # self.voiceQ.join()
 
-                    while not self.q.empty():
-                        waste = self.q.get() 
+                    # while not self.q.empty():
+                    #     waste = self.q.get() 
                     
                     self.q.task_done()
                 except Exception as e:

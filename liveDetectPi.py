@@ -214,7 +214,7 @@ class LiveDetectPi(object):
                         self.s2.sendall(message)
                     else:
                         print "sending no face 2"
-                        message = " ".join(('0', '0', '90', '90', '0'))
+                        message = " ".join(('2', '0', '90', '90', '0'))
                         self.s2.sendall(message)
                 # Display the resulting frame
                 cv2.imshow('Video', frame)
