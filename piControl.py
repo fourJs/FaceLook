@@ -72,10 +72,10 @@ class PiControl(object):
     def panCar(self, theta):
         theta = theta - 90
 
-        if abs(theta)<=2:
+        if abs(theta)<=5:
             self.a.analogWrite(5,0)
             self.a.analogWrite(6,0)
-        elif theta>2:
+        elif theta>5:
             print "theta is larger than 2"
             self.a.digitalWrite(8, self.a.HIGH)
             self.a.digitalWrite(9, self.a.LOW)
@@ -84,7 +84,7 @@ class PiControl(object):
             self.a.analogWrite(5,110)
             self.a.analogWrite(6,110)
 
-        elif theta<-2:
+        elif theta<-5:
             print "theta is larger than -2"
             self.a.digitalWrite(8, self.a.LOW)
             self.a.digitalWrite(9, self.a.HIGH)
@@ -115,23 +115,23 @@ class PiControl(object):
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
                     
-                    self.tiltmotor(phi)                   
-                    self.panCar(theta)
+                    # self.tiltmotor(phi)                   
+                    # self.panCar(theta)
 
-                    # if faceResult == 0:
-                    #     system("go away! alien")
-                    #     if smileResult == 1:
-                    #         system("do not smile! alien")
-                    # else:
-                    #     self.tiltmotor(phi)                   
-                    #     self.panCar(theta)
-                    #     if smileResult == 1:
-                    #         system(self.getWeather())
-                    #     else:
-                    #         system("Good to see you! my man")
+                    if faceResult == 0:
+                        system("go away! alien")
+                        if smileResult == 1:
+                            system("do not smile! alien")
+                    else:
+                        # self.tiltmotor(phi)                   
+                        # self.panCar(theta)
+                        if smileResult == 1:
+                            system(self.getWeather())
+                        else:
+                            system("Good to see you! my man")
 
-                    # while not self.q.empty():
-                    #     waste = self.q.get() 
+                    while not self.q.empty():
+                        waste = self.q.get() 
                     
                     self.q.task_done()
                 except Exception as e:
