@@ -37,7 +37,7 @@ class PiControl(object):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         # Bind the socket to the port
-        pi_address = ('192.168.34.110', 5000)
+        pi_address = ('192.168.16.72', 5000)
         print >>sys.stderr, 'starting up on %s port %s' % pi_address
         self.sock.bind(pi_address)
 
