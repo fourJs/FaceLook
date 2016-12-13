@@ -115,23 +115,26 @@ class PiControl(object):
             self.prePhi = nPhi
 
     def speak(self):
-        faceData = []
-        smileData = []
         while True:
             while not self.voiceQ.empty():
                # data = self.voiceQ.get()
+                faceData = []
+                smileData = []
                 while len(faceData) < 5:
                     print "get data from voice qqqq"
                     try:
                         data = self.voiceQ.get()
-                        faceq=int(data[0])
-                        smileq=int(data[1])
-                        print "speak data: ", data
-                        faceData.append(faceq)
-                        smileData.append(smileq)
                     except Exception as e:
                         break
-                
+                    faceq=int(data[0])
+                    smileq=int(data[1])
+                    print "speak data: ", data
+                    
+                    if faceq!=2:  
+                        faceData.append(faceq)
+                        smileData.append(smileq)
+                    else:
+                        print "no one in the frame"
 
                 faceMean = np.mean(faceData)
                 smileMean = np.mean(smileData)
