@@ -37,6 +37,8 @@ class PiControl(object):
 
         self.faceCum = []
         self.smileCum = []
+        self.noFaceCum = []
+
 
     def initConnection(self):
         # Create a TCP/IP socket
@@ -113,33 +115,26 @@ class PiControl(object):
             self.prePhi = nPhi
 
     def speak(self):
-        bufferData = []
+        faceData = []
+        smileData = []
         while True:
             while not self.voiceQ.empty():
+               # data = self.voiceQ.get()
+                while len(faceData) < 5:
+                    print "get data from voice qqqq"
+                    try:
+                        data = self.voiceQ.get()
+                        faceq=int(data[0])
+                        smileq=int(data[1])
+                        print "speak data: ", data
+                        faceData.append(faceq)
+                        smileData.append(smileq)
+                    except Exception as e:
+                        break
                 
-                # while len(bufferData) < 5:
-                #     print "get data from voice qqqq"
-                #     try:
-                #         data = self.voiceQ.get()
-                #         print "speak data: ", data
-                #         bufferData.append(data)
-                #     except Exception as e:
-                #         break
 
-                # while (len(bufferData) > 0):
-              
-                data = self.voiceQ.get()
-                
-                if len(self.faceCum) > 10:
-                    self.faceCum = self.faceCum[1:]
-                if len(self.smileCum) > 10:
-                    self.smileCum = self.smileCum[1:]
-
-                self.faceCum.append(int(data[0]))
-                self.smileCum.append(int(data[1]))
-                
-                faceMean = np.mean(self.faceCum)
-                smileMean = np.mean(self.smileCum)
+                faceMean = np.mean(faceData)
+                smileMean = np.mean(smileData)
 
                 if  faceMean > .7:
                     if smileMean > .7:
@@ -158,6 +153,50 @@ class PiControl(object):
                     elif smileMean < .3:
                         print "say hello James"
                         system("say hello James")
+                
+                # while len(bufferData) < 5:
+                #     print "get data from voice qqqq"
+                #     try:
+                #         data = self.voiceQ.get()
+                #         print "speak data: ", data
+                #         bufferData.append(data)
+                #     except Exception as e:
+                #         break
+
+                # while (len(bufferData) > 0):
+              
+                # data = self.voiceQ.get()
+                
+                # if len(self.faceCum) > 4:
+                #     self.faceCum = self.faceCum[1:]
+                # if len(self.smileCum) > 4:
+                #     self.smileCum = self.smileCum[1:]
+
+                # if int(data[0]) in [0, 1]:
+                #     self.faceCum.append(int(data[0]))
+                #     self.smileCum.append(int(data[1]))
+                # else:
+
+                # faceMean = np.mean(self.faceCum)
+                # smileMean = np.mean(self.smileCum)
+
+                # if  faceMean > .7:
+                #     if smileMean > .7:
+                #         print "say alien do not smile"
+                #         system("say alien do not smile")
+                #     elif smileMean < .3:
+                #         print ("say alien go away")
+                #         system("say alien go away")
+
+    
+                # elif faceMean < .3:
+                #     if smileMean > .7:
+                #         print("say James nice smile")
+                #         system("say James nice smile")
+
+                #     elif smileMean < .3:
+                #         print "say hello James"
+                #         system("say hello James")
 
 
                 # data = self.voiceQ.get()
