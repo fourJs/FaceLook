@@ -117,27 +117,26 @@ class PiControl(object):
         while True:
             while not self.voiceQ.empty():
                 
-                while len(bufferData) < 5:
-                    print "get data from voice qqqq"
-                    try:
-                        data = self.voiceQ.get()
-                        print "speak data: ", data
-                        bufferData.append(data)
-                    except Exception as e:
-                        break
+                # while len(bufferData) < 5:
+                #     print "get data from voice qqqq"
+                #     try:
+                #         data = self.voiceQ.get()
+                #         print "speak data: ", data
+                #         bufferData.append(data)
+                #     except Exception as e:
+                #         break
 
-                while (len(bufferData) > 0):
-                    print "clear buffer data"
-                    data = bufferData[-1]
-                    bufferData = bufferData[:-1]
-                    
-                    if len(self.faceCum) > 10:
-                        self.faceCum = self.faceCum[1:]
-                    if len(self.smileCum) > 10:
-                        self.smileCum = self.smileCum[1:]
+                # while (len(bufferData) > 0):
+              
+                data = self.voiceQ.get()
+                
+                if len(self.faceCum) > 10:
+                    self.faceCum = self.faceCum[1:]
+                if len(self.smileCum) > 10:
+                    self.smileCum = self.smileCum[1:]
 
-                    self.faceCum.append(int(data[0]))
-                    self.smileCum.append(int(data[1]))
+                self.faceCum.append(int(data[0]))
+                self.smileCum.append(int(data[1]))
                 
                 faceMean = np.mean(self.faceCum)
                 smileMean = np.mean(self.smileCum)
