@@ -89,8 +89,8 @@ class PiControl(object):
             self.a.digitalWrite(9, self.a.LOW)
             self.a.digitalWrite(10, self.a.LOW)
             self.a.digitalWrite(11, self.a.HIGH)
-            self.a.analogWrite(5,200)
-            self.a.analogWrite(6,200)
+            self.a.analogWrite(5,170)
+            self.a.analogWrite(6,170)
 
         elif theta<-5:
             print "theta is larger than -2"
@@ -98,8 +98,8 @@ class PiControl(object):
             self.a.digitalWrite(9, self.a.HIGH)
             self.a.digitalWrite(10, self.a.HIGH)
             self.a.digitalWrite(11, self.a.LOW)
-            self.a.analogWrite(5,200)
-            self.a.analogWrite(6,200)
+            self.a.analogWrite(5,170)
+            self.a.analogWrite(6,170)
 
     def tiltmotor(self, phi):
         nPhi = int(self.prePhi + 0.9*(phi-90))
@@ -143,7 +143,7 @@ class PiControl(object):
 
                 print "faceMean: ", faceMean
 
-                if  faceMean > .7:
+                if  faceMean < .3:
                     if smileMean > .7:
                         print "say alien do not smile"
                         system("say alien do not smile")
@@ -152,7 +152,7 @@ class PiControl(object):
                         system("say alien go away")
 
     
-                elif faceMean < .3:
+                elif faceMean > .7:
                     if smileMean > .7:
                         print("say James nice smile")
                         system("say James nice smile")
