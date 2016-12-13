@@ -201,8 +201,9 @@ class LiveDetectPi(object):
                 # predict output
                 if len(detected_faces) <= 0:
                     print "sending no face 1"
-                    message = " ".join(('0', '0', '90', '90', '0'))
-                    self.s2.sendall(message)                    
+                    message = " ".join(('2', '0', '90', '90', '0'))
+                    self.s2.sendall(message)   
+                                     
                 for face in detected_faces:
                     (x, y, w, h) = face
                     if w > 10:
@@ -212,10 +213,10 @@ class LiveDetectPi(object):
 
                         message = " ".join((str(faceResult), str(smileResult), str(int(theta)), str(int(phi)), str(int(realDist))))
                         self.s2.sendall(message)
-                    else:
-                        print "sending no face 2"
-                        message = " ".join(('2', '0', '90', '90', '0'))
-                        self.s2.sendall(message)
+                    # else:
+                    #     print "sending no face 2"
+                    #     message = " ".join(('2', '0', '90', '90', '0'))
+                    #     self.s2.sendall(message)
                 # Display the resulting frame
                 cv2.imshow('Video', frame)
 
