@@ -118,13 +118,16 @@ class PiControl(object):
             while not self.voiceQ.empty():
                 
                 while len(bufferData) < 5:
+                    print "get data from voice qqqq"
                     try:
                         data = self.voiceQ.get()
+                        print "speak data: ", data
                         bufferData.append(data)
                     except Exception as e:
                         break
 
                 while (len(bufferData) > 0):
+                    print "clear buffer data"
                     data = bufferData[-1]
                     bufferData = bufferData[:-1]
                     
@@ -141,14 +144,20 @@ class PiControl(object):
 
                 if  faceMean > .7:
                     if smileMean > .7:
+                        print "say alien do not smile"
                         system("say alien do not smile")
                     elif smileMean < .3:
+                        print ("say alien go away")
                         system("say alien go away")
+
     
                 elif faceMean < .3:
                     if smileMean > .7:
+                        print("say James nice smile")
                         system("say James nice smile")
+
                     elif smileMean < .3:
+                        print "say hello James"
                         system("say hello James")
 
 
@@ -177,7 +186,7 @@ class PiControl(object):
         while True:
             while not self.q.empty():
                 data = self.q.get()
-                print "pop out from queue: ", data
+                # print "pop out from queue: ", data
                 try:
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
@@ -204,7 +213,7 @@ class PiControl(object):
         while True:
             try:
                 data = self.connection.recv(16).strip()
-                print >>sys.stderr, 'received "%s"' % data
+                # print >>sys.stderr, 'received "%s"' % data
                 self.q.put(data)
                 self.q.join()
             except Exception as e:
