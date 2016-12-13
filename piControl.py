@@ -242,8 +242,8 @@ class PiControl(object):
                         # while not self.voiceQ.empty():
                         #     waste = self.voiceQ.get() 
                         self.voiceQ.put(str(faceResult) + str(smileResult))
-                        self.voiceQ.join()
-                        print "self.voiceQ.join() ", self.voiceQ.join()
+                        # self.voiceQ.join()
+                        # print "self.voiceQ.join() ", self.voiceQ.join()
 
                         # while not self.q.empty():
                         #     waste = self.q.get()  
