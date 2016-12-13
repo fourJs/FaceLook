@@ -120,8 +120,6 @@ class PiControl(object):
                 elif data == "01":
                     # print "alien smiling"
                     system("say do not smile! alien")
-                # self.tiltmotor(phi)                   
-                # self.panCar(theta)
                 elif data == "10":
                     # print "James smiling"
                     system(self.getWeather())
@@ -130,6 +128,9 @@ class PiControl(object):
                     system("say good to see you! my man")
                 else:
                     pass
+                    
+                with self.voiceQ.mutex:
+                    self.voiceQ.clear()
 
     def control(self):
         while True:
@@ -144,6 +145,8 @@ class PiControl(object):
                     self.tiltmotor(phi)                   
                     self.panCar(theta)
 
+                    # while not self.voiceQ.empty():
+                    #     waste = self.voiceQ.get() 
                     self.voiceQ.put(str(faceResult) + str(smileResult))
                     # self.voiceQ.join()
 
