@@ -10,8 +10,8 @@ import threading
 import Queue
 from nanpy import ArduinoApi
 from nanpy import SerialManager
-# import pyowm
-# from os import system
+import pyowm
+from os import system
 
 
 class PiControl(object):
