@@ -10,8 +10,8 @@ import threading
 import Queue
 from nanpy import ArduinoApi
 from nanpy import SerialManager
-import pyowm
-from os import system
+# import pyowm
+# from os import system
 
 
 class PiControl(object):
@@ -49,53 +49,24 @@ class PiControl(object):
         self.connection, client_address = self.sock.accept()
 
         print >>sys.stderr, 'connection from', client_address
-    def getWeather(self):
-        owm = pyowm.OWM("1304584f22b294d48aae0bfff0fe655f")  # You MUST provide a valid API key
 
-        # Search for current weather in Needham, MA
-        observation = owm.weather_at_place('Needham,MA')
-        w = observation.get_weather()
-        # <Weather - reference time=2013-12-18 09:20, status=Clouds>
+    # def getWeather(self):
+    #     owm = pyowm.OWM("1304584f22b294d48aae0bfff0fe655f")  # You MUST provide a valid API key
 
-        # Weather details
-        summary = w.get_detailed_status()
-        wind = w.get_wind()                  # {'speed': 4.6, 'deg': 330}
-        humidity = w.get_humidity()              # 87
-        temperature = w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
-        pressure = w.get_pressure()
-        text = "say hello my majesty, today the weather is " + str(summary) + ", the wind speed is " + str(wind["speed"]) + ", the humidity is " + str(humidity) + ", the temperature is around " + str(temperature["temp"]) + " and the pressure is " + str(pressure["press"])
-        return text
+    #     # Search for current weather in Needham, MA
+    #     observation = owm.weather_at_place('Needham,MA')
+    #     w = observation.get_weather()
+    #     # <Weather - reference time=2013-12-18 09:20, status=Clouds>
 
-    def control(self):
-        while True:
-            while not self.q.empty():
-                data = self.q.get()
-                print "pop out from queue: ", data
-                try:
-                    data = data.split(" ")
-                    [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
-                    self.tiltmotor(phi)                   
-                    self.panCar(theta)
-                    # if faceResult == 0:
-                    #     system("go away! alien")
-                    #     if smileResult == 1:
-                    #         system("do not smile! alien")
-                    # else:
-                    #     self.tiltmotor(phi)                   
-                    #     self.panCar(theta)
-                    #     if smileResult == 1:
-                    #         system(self.getWeather())
-                    #     else:
-                    #         system("Good to see you! my man")
+    #     # Weather details
+    #     summary = w.get_detailed_status()
+    #     wind = w.get_wind()                  # {'speed': 4.6, 'deg': 330}
+    #     humidity = w.get_humidity()              # 87
+    #     temperature = w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
+    #     pressure = w.get_pressure()
+    #     text = "say hello my majesty, today the weather is " + str(summary) + ", the wind speed is " + str(wind["speed"]) + ", the humidity is " + str(humidity) + ", the temperature is around " + str(temperature["temp"]) + " and the pressure is " + str(pressure["press"])
+    #     return text
 
-                    # while not self.q.empty():
-                    #     waste = self.q.get() 
-                    
-                    self.q.task_done()
-                except Exception as e:
-                    print e
-                    self.q.task_done()
-                # self.q.task_done()
              
 
     def panCar(self, theta):
@@ -135,6 +106,38 @@ class PiControl(object):
             self.servo_tilt.write(nPhi)
             self.prePhi = nPhi
 
+    def control(self):
+        while True:
+            while not self.q.empty():
+                data = self.q.get()
+                print "pop out from queue: ", data
+                try:
+                    data = data.split(" ")
+                    [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
+                    
+                    self.tiltmotor(phi)                   
+                    self.panCar(theta)
+
+                    # if faceResult == 0:
+                    #     system("go away! alien")
+                    #     if smileResult == 1:
+                    #         system("do not smile! alien")
+                    # else:
+                    #     self.tiltmotor(phi)                   
+                    #     self.panCar(theta)
+                    #     if smileResult == 1:
+                    #         system(self.getWeather())
+                    #     else:
+                    #         system("Good to see you! my man")
+
+                    # while not self.q.empty():
+                    #     waste = self.q.get() 
+                    
+                    self.q.task_done()
+                except Exception as e:
+                    print e
+                    self.q.task_done()
+                # self.q.task_done()
 
     def cmdReceiver(self):
         while True:
