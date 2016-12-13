@@ -119,16 +119,16 @@ class PiControl(object):
                     # self.panCar(theta)
 
                     if faceResult == 0:
-                        system("go away! alien")
+                        system("say go away! alien")
                         if smileResult == 1:
-                            system("do not smile! alien")
+                            system("say do not smile! alien")
                     else:
                         # self.tiltmotor(phi)                   
                         # self.panCar(theta)
                         if smileResult == 1:
                             system(self.getWeather())
                         else:
-                            system("Good to see you! my man")
+                            system("say good to see you! my man")
 
                     while not self.q.empty():
                         waste = self.q.get() 
