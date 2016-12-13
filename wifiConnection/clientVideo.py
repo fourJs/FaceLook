@@ -15,7 +15,7 @@ sock.connect((pc_IP, TCP_PORT))
 
 with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as stream:
-        camera.resolution = (640, 512) 
+        camera.resolution = (1280, 1024) 
         
         while True:
 
