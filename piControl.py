@@ -143,7 +143,7 @@ class PiControl(object):
 
                 print "faceMean: ", faceMean
 
-                if  faceMean < .3:
+                if  faceMean < .2:
                     if smileMean > .7:
                         print "say alien do not smile"
                         system("say alien do not smile")
@@ -152,7 +152,7 @@ class PiControl(object):
                         system("say alien go away")
 
     
-                elif faceMean > .7:
+                elif faceMean > .8:
                     if smileMean > .7:
                         print("say James nice smile")
                         system("say James nice smile")
