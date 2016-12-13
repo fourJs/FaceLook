@@ -75,7 +75,7 @@ class PiControl(object):
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
                     
-                    if faceResult = 0:
+                    if faceResult == 0:
                         system("go away! alien")
                         if smileResult == 1:
                             system("do not smile! alien")
