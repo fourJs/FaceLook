@@ -35,6 +35,9 @@ class PiControl(object):
         self.a.pinMode(5, self.a.OUTPUT)
         self.a.pinMode(6, self.a.OUTPUT)
 
+        self.faceCum = []
+        self.smileCum = []
+
     def initConnection(self):
         # Create a TCP/IP socket
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -110,25 +113,62 @@ class PiControl(object):
             self.prePhi = nPhi
 
     def speak(self):
+        bufferData = []
         while True:
             while not self.voiceQ.empty():
-                data = self.voiceQ.get()
-                print "voice queue: ", data        
-                if data == "00":
-                    # print "alien"
-                    system("say go away! alien")
-                elif data == "01":
-                    # print "alien smiling"
-                    system("say do not smile! alien")
-                elif data == "10":
-                    # print "James smiling"
-                    system("say hello James")
-                    # system(self.getWeather())
-                elif data == "11":
-                    # print "James"
-                    system("say nice smile James")
-                else:
-                    pass
+                
+                while len(bufferData) < 5:
+                    try:
+                        data = self.voiceQ.get()
+                        bufferData.append(data)
+                    except Exception as e:
+                        break
+
+                while (len(bufferData) > 0):
+                    data = bufferData[-1]
+                    bufferData = bufferData[:-1]
+                    
+                    if len(self.faceCum) > 10:
+                        self.faceCum = self.faceCum[1:]
+                    if len(self.smileCum) > 10:
+                        self.smileCum = self.smileCum[1:]
+
+                    self.faceCum.append(int(data[0]))
+                    self.smileCum.append(int(data[1]))
+                
+                faceMean = np.mean(self.faceCum)
+                smileMean = np.mean(self.smileCum)
+
+                if  faceMean > .7:
+                    if smileMean > .7:
+                        system("say alien do not smile")
+                    elif smileMean < .3:
+                        system("say alien go away")
+    
+                elif faceMean < .3:
+                    if smileMean > .7:
+                        system("say James nice smile")
+                    elif smileMean < .3:
+                        system("say hello James")
+
+
+                # data = self.voiceQ.get()
+                # print "voice queue: ", data        
+                # if data == "00":
+                #     # print "alien"
+                #     system("say go away! alien")
+                # elif data == "01":
+                #     # print "alien smiling"
+                #     system("say do not smile! alien")
+                # elif data == "10":
+                #     # print "James smiling"
+                #     system("say hello James")
+                #     # system(self.getWeather())
+                # elif data == "11":
+                #     # print "James"
+                #     system("say nice smile James")
+                # else:
+                #     pass
 
                 # with self.voiceQ.mutex:
                 #     self.voiceQ.clear()
@@ -152,8 +192,7 @@ class PiControl(object):
                         # self.voiceQ.join()
 
                         # while not self.q.empty():
-                        #     waste = self.q.get() 
-                        
+                        #     waste = self.q.get()  
                     self.q.task_done()
 
                 except Exception as e:
