@@ -122,13 +122,14 @@ class PiControl(object):
                     system("say do not smile! alien")
                 elif data == "10":
                     # print "James smiling"
-                    system(self.getWeather())
+                    system("hello James")
+                    # system(self.getWeather())
                 elif data == "11":
                     # print "James"
-                    system("say good to see you! my man")
+                    system("nice smile James")
                 else:
                     pass
-                    
+
                 # with self.voiceQ.mutex:
                 #     self.voiceQ.clear()
 
