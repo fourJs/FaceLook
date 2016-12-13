@@ -110,24 +110,26 @@ class PiControl(object):
             self.prePhi = nPhi
 
     def speak(self):
-        data = self.voiceQ.get()
-        print "voice queue: ", data        
-        if data == "00":
-            # print "alien"
-            system("say go away! alien")
-        elif data == "01":
-            # print "alien smiling"
-            system("say do not smile! alien")
-        # self.tiltmotor(phi)                   
-        # self.panCar(theta)
-        elif data == "10":
-            # print "James smiling"
-            system(self.getWeather())
-        elif data == "11":
-            # print "James"
-            system("say good to see you! my man")
-        else:
-            pass
+        while True:
+            while not self.voiceQ.empty():
+                data = self.voiceQ.get()
+                print "voice queue: ", data        
+                if data == "00":
+                    # print "alien"
+                    system("say go away! alien")
+                elif data == "01":
+                    # print "alien smiling"
+                    system("say do not smile! alien")
+                # self.tiltmotor(phi)                   
+                # self.panCar(theta)
+                elif data == "10":
+                    # print "James smiling"
+                    system(self.getWeather())
+                elif data == "11":
+                    # print "James"
+                    system("say good to see you! my man")
+                else:
+                    pass
 
     def control(self):
         while True:
@@ -139,8 +141,8 @@ class PiControl(object):
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
                     
 
-                    self.tiltmotor(phi)                   
-                    self.panCar(theta)
+                    # self.tiltmotor(phi)                   
+                    # self.panCar(theta)
 
                     self.voiceQ.put(str(faceResult) + str(smileResult))
                     # self.voiceQ.join()
@@ -175,5 +177,8 @@ class PiControl(object):
         t2.start()
         t3 = threading.Thread(target = self.speak)
         t3.start()
+
+
+
 if __name__ == '__main__':
     PiControl().run()
