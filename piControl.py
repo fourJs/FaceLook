@@ -121,7 +121,7 @@ class PiControl(object):
                 faceData = []
                 smileData = []
                 while len(faceData) < 5:
-                    print "get data from voice qqqq"
+                    # print "get data from voice qqqq"
                     
                     try:
                         data = self.voiceQ.get()
@@ -130,9 +130,9 @@ class PiControl(object):
                         break
                     faceq=int(data[0])
                     smileq=int(data[1])
-                    print "speak data: ", data
                     
                     if faceq!=2:  
+                        print "speak data: ", data
                         faceData.append(faceq)
                         smileData.append(smileq)
                     else:
@@ -140,6 +140,8 @@ class PiControl(object):
 
                 faceMean = np.mean(faceData)
                 smileMean = np.mean(smileData)
+
+                print "faceMean: ", faceMean
 
                 if  faceMean > .7:
                     if smileMean > .7:
