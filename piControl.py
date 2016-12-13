@@ -129,8 +129,8 @@ class PiControl(object):
                 else:
                     pass
                     
-                with self.voiceQ.mutex:
-                    self.voiceQ.clear()
+                # with self.voiceQ.mutex:
+                #     self.voiceQ.clear()
 
     def control(self):
         while True:
@@ -145,8 +145,8 @@ class PiControl(object):
                     self.tiltmotor(phi)                   
                     self.panCar(theta)
 
-                    # while not self.voiceQ.empty():
-                    #     waste = self.voiceQ.get() 
+                    while not self.voiceQ.empty():
+                        waste = self.voiceQ.get() 
                     self.voiceQ.put(str(faceResult) + str(smileResult))
                     # self.voiceQ.join()
 
