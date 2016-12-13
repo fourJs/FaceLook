@@ -141,20 +141,21 @@ class PiControl(object):
                 try:
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
-                    
+                    if faceResult in [0, 1, 2] and smileResult in [0, 1]:
 
-                    self.tiltmotor(phi)                   
-                    self.panCar(theta)
+                        self.tiltmotor(phi)                   
+                        self.panCar(theta)
 
-                    while not self.voiceQ.empty():
-                        waste = self.voiceQ.get() 
-                    self.voiceQ.put(str(faceResult) + str(smileResult))
-                    # self.voiceQ.join()
+                        while not self.voiceQ.empty():
+                            waste = self.voiceQ.get() 
+                        self.voiceQ.put(str(faceResult) + str(smileResult))
+                        # self.voiceQ.join()
 
-                    # while not self.q.empty():
-                    #     waste = self.q.get() 
-                    
+                        # while not self.q.empty():
+                        #     waste = self.q.get() 
+                        
                     self.q.task_done()
+                        
                 except Exception as e:
                     print e
                     self.q.task_done()
