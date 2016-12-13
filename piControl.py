@@ -156,6 +156,7 @@ class PiControl(object):
                     elif smileMean < .3:
                         print "say hello James"
                         system("say hello James")
+                self.voiceQ.task_done()
                 
                 # while len(bufferData) < 5:
                 #     print "get data from voice qqqq"
@@ -239,7 +240,8 @@ class PiControl(object):
                         # while not self.voiceQ.empty():
                         #     waste = self.voiceQ.get() 
                         self.voiceQ.put(str(faceResult) + str(smileResult))
-                        # self.voiceQ.join()
+                        self.voiceQ.join()
+                        print "self.voiceQ.join() ", self.voiceQ.join()
 
                         # while not self.q.empty():
                         #     waste = self.q.get()  
