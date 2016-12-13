@@ -97,7 +97,7 @@ class PiControl(object):
             self.a.analogWrite(6,110)
 
     def tiltmotor(self, phi):
-        nPhi = int(self.prePhi + 0.5*(phi-90))
+        nPhi = int(self.prePhi + 0.9*(phi-90))
 
         if abs(phi-90) < 7:
             pass
@@ -155,7 +155,7 @@ class PiControl(object):
                         #     waste = self.q.get() 
                         
                     self.q.task_done()
-                        
+
                 except Exception as e:
                     print e
                     self.q.task_done()
