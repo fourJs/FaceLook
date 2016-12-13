@@ -127,6 +127,7 @@ class PiControl(object):
                         if self.voiceQ.empty():
                             break
                     except Exception as e:
+                        print "cannot get data"
                         break
                     faceq=int(data[0])
                     smileq=int(data[1])
