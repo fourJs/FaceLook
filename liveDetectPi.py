@@ -34,7 +34,7 @@ class LiveDetectPi(object):
 
         self.s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Connect the socket to the port where the server is listening
-        pi_address = ('192.168.34.110', 5001)
+        pi_address = ('192.168.16.72', 5001)
         print >>sys.stderr, 'connecting to %s port %s' % pi_address
         self.s2.connect(pi_address)
 
