@@ -131,19 +131,21 @@ class PiControl(object):
                     faceq=int(data[0])
                     smileq=int(data[1])
                     
-                    if faceq!=2:  
-                        print "speak data: ", data
-                        faceData.append(faceq)
-                        smileData.append(smileq)
-                    else:
-                        print "no one in the frame"
+                    # if faceq!=2:  
+                    print "speak data: ", data
+                    faceData.append(faceq)
+                    smileData.append(smileq)
+                    # else:
+                    #     print "no one in the frame"
 
                 faceMean = np.mean(faceData)
                 smileMean = np.mean(smileData)
 
                 print "faceMean: ", faceMean
 
-                if  faceMean < .2:
+                if faceMean >1:
+                    print "no one in the frame"
+                elif  faceMean < .2 and faceMean >= 0:
                     if smileMean > .7:
                         print "say alien do not smile"
                         system("say alien do not smile")
@@ -152,7 +154,7 @@ class PiControl(object):
                         system("say alien go away")
 
     
-                elif faceMean > .8:
+                elif faceMean > .8 and faceMean <=1:
                     if smileMean > .7:
                         print("say James nice smile")
                         system("say James nice smile")
