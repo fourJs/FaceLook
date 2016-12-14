@@ -34,7 +34,10 @@ class PiControl(object):
         self.a.pinMode(11, self.a.OUTPUT)
         self.a.pinMode(5, self.a.OUTPUT)
         self.a.pinMode(6, self.a.OUTPUT)
-        # self.specCum = 0
+        self.specCum = 0
+        self.preSpeakResult = None
+        self.speakResult = None
+        self.weatherInfo = self.getWeather()
 
     def initConnection(self):
         # Create a TCP/IP socket
@@ -54,6 +57,7 @@ class PiControl(object):
 
         print >>sys.stderr, 'connection from', client_address
 
+
     def getWeather(self):
         owm = pyowm.OWM("1304584f22b294d48aae0bfff0fe655f")  # You MUST provide a valid API key
 
@@ -64,11 +68,13 @@ class PiControl(object):
 
         # Weather details
         summary = w.get_detailed_status()
-        wind = w.get_wind()                  # {'speed': 4.6, 'deg': 330}
-        humidity = w.get_humidity()              # 87
-        temperature = w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
-        pressure = w.get_pressure()
-        text = "say hello my majesty, today the weather is " + str(summary) + ", the wind speed is " + str(wind["speed"]) + ", the humidity is " + str(humidity) + ", the temperature is around " + str(temperature["temp"]) + " and the pressure is " + str(pressure["press"])
+        # wind = w.get_wind()                  # {'speed': 4.6, 'deg': 330}
+        # humidity = w.get_humidity()              # 87
+        # temperature = w.get_temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
+        # pressure = w.get_pressure()
+        # text = "say hello my majesty, today the weather is " + str(summary) + ", the wind speed is " + str(wind["speed"]) + ", the humidity is " + str(humidity) + ", the temperature is around " + str(temperature["temp"]) + " and the pressure is " + str(pressure["press"])
+        text = "say by the way, today the weather is " + str(summary)
+        
         return text
 
              
@@ -145,20 +151,36 @@ class PiControl(object):
                     if smileMean > .7:
                         print "say alien do not smile"
                         system("say alien do not smile")
+                        self.speakResult = 0
+
                     elif smileMean < .3:
                         print ("say alien go away")
                         system("say alien go away")
+                        self.speakResult = 1
 
     
                 elif faceMean > .8 and faceMean <=1:
                     if smileMean > .7:
                         print("say James nice smile")
                         system("say James nice smile")
+                        
+                        self.speakResult = 2
+                        if self.preSpeakResult == 2:
+                            self.specCum += 1
+                        else:
+                            self.specCum = 0
 
+                        if self.specCum > 3:
+                            print(self.weatherInfo)
+                            system(self.weatherInfo)
+                            self.specCum = 0
+                        
                     elif smileMean < .3:
                         print "say hello James"
                         system("say hello James")
+                        self.speakResult = 3
 
+                self.preSpeakResult = self.speakResult
 
     def control(self):
         while True:
