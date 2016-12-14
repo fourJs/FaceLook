@@ -106,7 +106,7 @@ class PiControl(object):
     def tiltmotor(self, phi):
         nPhi = int(self.prePhi + 1.5*(phi-90))
 
-        if abs(phi-90) < 7:
+        if abs(phi-90) < 2:
             pass
         elif abs(nPhi-90)>50:
             print "too big nPhi: ", nPhi
