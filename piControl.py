@@ -231,8 +231,8 @@ class PiControl(object):
         t1.start()
         t2 = threading.Thread(target = self.control)
         t2.start()
-        t3 = threading.Thread(target = self.speak)
-        t3.start()
+        # t3 = threading.Thread(target = self.speak)
+        # t3.start()
 
 
 
