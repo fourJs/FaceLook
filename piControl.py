@@ -213,7 +213,7 @@ class PiControl(object):
         while True:
             while not self.q.empty():
                 data = self.q.get()
-                # print "pop out from queue: ", data
+                print "pop out from queue: ", data
                 try:
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
