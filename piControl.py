@@ -44,7 +44,7 @@ class PiControl(object):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         # Bind the socket to the port
-        pi_address = ('192.168.16.72', 5000)
+        pi_address = ('192.168.16.72', 5001)
         print >>sys.stderr, 'starting up on %s port %s' % pi_address
         self.sock.bind(pi_address)
 
@@ -161,7 +161,7 @@ class PiControl(object):
                         #     print "say alien do not smile"
                         #     system("say alien do not smile")
                         #     self.specCum = 0
-                            
+
                     elif smileMean < .3:
                         print ("say alien go away")
                         system("say alien go away")
