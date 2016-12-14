@@ -25,7 +25,7 @@ class LiveDetectPi(object):
         self.smileCascade = cv2.CascadeClassifier(smilePath)
         
         pc_IP = "192.168.16.66"
-        TCP_PORT = 1234
+        TCP_PORT = 1235
 
         self.s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s1.bind((pc_IP, TCP_PORT))
