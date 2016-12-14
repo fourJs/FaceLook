@@ -104,7 +104,7 @@ class PiControl(object):
             self.a.analogWrite(6,170)
 
     def tiltmotor(self, phi):
-        nPhi = int(self.prePhi + 0.9*(phi-90))
+        nPhi = int(self.prePhi + 1.5*(phi-90))
 
         if abs(phi-90) < 7:
             pass
@@ -188,7 +188,7 @@ class PiControl(object):
         while True:
             while not self.q.empty():
                 data = self.q.get()
-                # print "pop out from queue: ", data
+                print "pop out from queue: ", data
                 try:
                     data = data.split(" ")
                     [faceResult, smileResult, theta, phi, realDist] = int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4])
