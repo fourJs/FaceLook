@@ -7,7 +7,7 @@ import picamera
 import sys
 
 pc_IP = "192.168.16.66"
-TCP_PORT = 1235
+TCP_PORT = 1234
 
 sock = socket.socket()
 sock.connect((pc_IP, TCP_PORT))
@@ -15,8 +15,8 @@ sock.connect((pc_IP, TCP_PORT))
 
 with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as stream:
-        camera.resolution = (640, 512) 
-        # camera.resolution = (int(640*1.3), int(512*1.3)) 
+        # camera.resolution = (640, 512) 
+        camera.resolution = (int(640*1.3), int(512*1.3)) 
         
         while True:
 
