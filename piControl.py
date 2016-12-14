@@ -151,61 +151,61 @@ class PiControl(object):
                     if smileMean > .7:
                         print "say alien do not smile"
                         system("say alien do not smile")
-                        # self.speakResult = 0
-                        # if self.preSpeakResult == self.speakResult:
-                        #     self.specCum += 1
-                        # else:
-                        #     self.specCum = 0
+                        self.speakResult = 0
+                        if self.preSpeakResult == self.speakResult:
+                            self.specCum += 1
+                        else:
+                            self.specCum = 0
 
-                        # if self.specCum > 3:
-                        #     print "say alien do not smile"
-                        #     system("say alien do not smile")
-                        #     self.specCum = 0
+                        if self.specCum > 3:
+                            print "say alien do not smile"
+                            system("say alien do not smile")
+                            self.specCum = 0
 
                     elif smileMean < .3:
                         print ("say alien go away")
                         system("say alien go away")
-                        # self.speakResult = 3
-                        # if self.preSpeakResult == self.speakResult:
-                        #     self.specCum += 1
-                        # else:
-                        #     self.specCum = 0
+                        self.speakResult = 3
+                        if self.preSpeakResult == self.speakResult:
+                            self.specCum += 1
+                        else:
+                            self.specCum = 0
 
-                        # if self.specCum > 3:
-                        #     print ("say alien go away")
-                        #     system("say alien go away")
-                        #     self.specCum = 0
+                        if self.specCum > 3:
+                            print ("say alien go away")
+                            system("say alien go away")
+                            self.specCum = 0
     
                 elif faceMean > .8 and faceMean <=1:
                     if smileMean > .7:                        
                         print("say James nice smile")
                         system("say James nice smile")
-                        # self.speakResult = 2
-                        # if self.preSpeakResult == self.speakResult:
-                        #     self.specCum += 1
-                        # else:
-                        #     self.specCum = 0
+                        self.speakResult = 2
+                        if self.preSpeakResult == self.speakResult:
+                            self.specCum += 1
+                        else:
+                            self.specCum = 0
 
-                        # if self.specCum > 3:
-                        #     print("say James nice smile")
-                        #     system("say James nice smile")
-                        #     # print(self.weatherInfo)
-                        #     # system(self.weatherInfo)
-                        #     self.specCum = 0
+                        if self.specCum > 3:
+                            print("say James nice smile")
+                            system("say James nice smile")
+                            # print(self.weatherInfo)
+                            # system(self.weatherInfo)
+                            self.specCum = 0
                         
                     elif smileMean < .3:
                         print "say hello James"
                         system("say hello James")
-                        # self.speakResult = 3
-                        # if self.preSpeakResult == self.speakResult:
-                        #     self.specCum += 1
-                        # else:
-                        #     self.specCum = 0
+                        self.speakResult = 3
+                        if self.preSpeakResult == self.speakResult:
+                            self.specCum += 1
+                        else:
+                            self.specCum = 0
 
-                        # if self.specCum > 3:
-                        #     print "say hello James"
-                        #     system("say hello James")
-                        #     self.specCum = 0
+                        if self.specCum > 3:
+                            print "say hello James"
+                            system("say hello James")
+                            self.specCum = 0
 
                 self.preSpeakResult = self.speakResult
 
