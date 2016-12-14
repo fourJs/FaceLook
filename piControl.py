@@ -104,9 +104,9 @@ class PiControl(object):
             self.a.analogWrite(6,170)
 
     def tiltmotor(self, phi):
-        nPhi = int(self.prePhi + 1.5*(phi-90))
+        nPhi = int(self.prePhi + 0.9*(phi-90))
 
-        if abs(phi-90) < 2:
+        if abs(phi-90) < 4:
             pass
         elif abs(nPhi-90)>50:
             print "too big nPhi: ", nPhi
