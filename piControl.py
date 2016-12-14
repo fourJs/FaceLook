@@ -91,8 +91,8 @@ class PiControl(object):
             self.a.digitalWrite(9, self.a.LOW)
             self.a.digitalWrite(10, self.a.LOW)
             self.a.digitalWrite(11, self.a.HIGH)
-            self.a.analogWrite(5,140)
-            self.a.analogWrite(6,140)
+            self.a.analogWrite(5,120)
+            self.a.analogWrite(6,120)
 
         elif theta<-5:
             print "theta is larger than -2"
@@ -100,8 +100,8 @@ class PiControl(object):
             self.a.digitalWrite(9, self.a.HIGH)
             self.a.digitalWrite(10, self.a.HIGH)
             self.a.digitalWrite(11, self.a.LOW)
-            self.a.analogWrite(5,140)
-            self.a.analogWrite(6,140)
+            self.a.analogWrite(5,120)
+            self.a.analogWrite(6,120)
 
     def tiltmotor(self, phi):
         nPhi = int(self.prePhi + 0.9*(phi-90))
