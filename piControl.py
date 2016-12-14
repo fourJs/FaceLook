@@ -161,11 +161,12 @@ class PiControl(object):
     
                 elif faceMean > .8 and faceMean <=1:
                     if smileMean > .7:
-                        # print("say James nice smile")
-                        # system("say James nice smile")
-                        print(self.weatherInfo)
-                        system(self.weatherInfo)
+                        print("say James nice smile")
+                        system("say James nice smile")
+                        # print(self.weatherInfo)
+                        # system(self.weatherInfo)
                         # self.speakResult = 2
+
                         # if self.preSpeakResult == 2:
                         #     self.specCum += 1
                         # else:
